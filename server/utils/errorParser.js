@@ -1,8 +1,10 @@
 function parseError(error) {
-    if (error.name == 'ValidationError') {
+    if (Array.isArray(error)) {
+        return error.map(e => e.msg);
+    } else if (error.name == 'ValidationError') {
         return Object.values(error.errors).map(v => v.message);
     } else {
-        return error.message.split('\n');
+        return error.message;
     }
 }
 

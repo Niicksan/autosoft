@@ -1,61 +1,79 @@
 const User = require('../models/User');
+const TokenBlacklist = require('../models/tokenBlacklistModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
-const JWT_SECRET = 'aGf23FgTahf232HafaGj45hjh435adsfgadFjaD';
+const JWT_SECRET = 'aGf23FgTahf124232HasdafdfaGj45hjh431235adsfgadFjaD';
 
-async function register(username, password) {
-    const existing = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
+async function register(email, companyName, password) {
+    const existing = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
 
     if (existing) {
-        throw new Error('Username is taken');
+        throw new Error('Имейл адресът е зает');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
-        username,
+        email,
+        companyName,
         hashedPassword
     });
 
-    // TODO Check if you have to create session
-    return createSession(user);
+    return createToken(user);
 }
 
-async function login(username, password) {
-    const user = await User.findOne({ username }).collation({ locale: 'en', strength: 2 });
+async function login(email, password) {
+    const user = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
 
     if (!user) {
-        throw new Error('Incorrect username or password');
+        throw new Error('Невалиден имейл или парола');
     }
 
     const hasMatch = await bcrypt.compare(password, user.hashedPassword);
 
     if (!hasMatch) {
-        throw new Error('Incorrect username or password');
+        throw new Error('Невалиден имейл или парола');
     }
 
-    return createSession(user);
+    return createToken(user);
 }
 
-function createSession({ _id, username }) {
+async function logout(token) {
+    await TokenBlacklist.create({ token });
+}
+
+function createToken({ _id, email, companyName }) {
     const payload = {
         _id,
-        username
+        email,
+        companyName
     };
 
-    return jwt.sign(payload, JWT_SECRET, {
-        expiresIn: '4h'
-    });
+    return {
+        _id,
+        email,
+        companyName,
+        authToken: jwt.sign(payload, JWT_SECRET, {
+            expiresIn: '1d'
+        })
+    };
 }
 
-function verifyToken(token) {
+async function parseToken(token) {
+    const isTokenBlacklisted = await TokenBlacklist.findOne({ token });
+
+    if (isTokenBlacklisted) {
+        return new Error('Token is blacklisted');
+    }
+
     return jwt.verify(token, JWT_SECRET);
 }
 
 module.exports = {
     register,
     login,
-    verifyToken
+    logout,
+    parseToken
 };

@@ -1,19 +1,28 @@
-const { verifyToken } = require("../services/authService");
+const { parseToken } = require("../services/authService");
+const { authCookieName } = require("../config/auth-config");
 
 
-module.exports = () => (req, res, next) => {
-    const token = req.cookies.token;
-
+module.exports = () => async (req, res, next) => {
+    const token = req.cookies[authCookieName];
+    // let token = req.headers['x-authorization'];
+    console.log('Session token: ', token);
     if (token) {
         try {
-            const userData = verifyToken(token);
-            req.user = userData;
-            // res.locals.email = userData.email;
-            res.locals.username = userData.username;
+            const payload = await parseToken(token);
+            console.log('Session payload: ', payload);
+            req.user = payload;
+            req.token = token;
+
+            console.log('Session req.user: ', req.user);
+            console.log('Session req.token: ', req.token);
         } catch (error) {
-            res.clearCookie('token');
-            res.redirect('/auth/login');
-            return;
+            console.log(error);
+
+            res.clearCookie(authCookieName);
+            return res.status(401).json({
+                messageEn: 'Invalid authorization token',
+                messageBg: 'Невалиден тоукън за аутентикация'
+            });
         }
     }
 

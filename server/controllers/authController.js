@@ -1,78 +1,93 @@
 const authController = require('express').Router();
 
+const { check, validationResult } = require('express-validator');
+const { authCookieName } = require('../config/auth-config');
 const { isGuest } = require('../middlewares/guards');
-const { register, login } = require('../services/authService');
+const { register, login, logout } = require('../services/authService');
 const { parseError } = require('../utils/errorParser');
 
 
-authController.get('/register', isGuest(), (req, res) => {
-    // TODO replace with real view
-    res.render('./auth/register', {
-        title: 'Register Page'
-    });
-});
-
-authController.post('/register', isGuest(), async (req, res) => {
-    try {
-        if (req.body.username === '' || req.body.password === '') {
-            throw new Error('All fields are required');
-        }
-
-        if (req.body.password !== req.body.repass) {
+authController.post('/register',
+    check('email').isEmail().withMessage('Invalid email'),
+    check('companyName').isLength({ min: 2 }).withMessage('Passwords must be longer then 1'),
+    check('password').isLength({ min: 5 })
+        .withMessage('Passwords must be at least 5 characters long')
+        //.matches('[0-9]').withMessage('Паролата трябва да съдържа цифра')
+        //.matches('[A-Z]').withMessage('Password Must Contain an Uppercase Letter')
+        .escape(),
+    check('repass').custom((value, { req }) => {
+        if (value !== req.body.password) {
             throw new Error('Passwords don\'t match');
         }
 
-        // TODO Check if register create session
-        const token = await register(req.body.username, req.body.password);
-        res.cookie('token', token);
-        res.redirect('/'); // TODO Check the redirect
-    } catch (error) {
-        // TODO Add Error Parser
-        res.locals.errors = parseError(error);
+        return true;
+    }),
 
-        // TODO Add Error display to the template
-        res.render('./auth/register', {
-            title: 'Register Page',
-            user: {
-                username: req.body.username
+    async (req, res) => {
+        try {
+            const { errors } = validationResult(req);
+
+            if (errors.length > 0) {
+                throw errors;
             }
-        });
+
+            const token = await register(req.body.email, req.body.companyName, req.body.password);
+
+            if (process.env.NODE_ENV === 'production') {
+                res.cookie(authCookieName, token.authToken, { httpOnly: true, sameSite: 'none', secure: true });
+            } else {
+                res.cookie(authCookieName, token.authToken, { httpOnly: true });
+            }
+
+            res.status(200).json(token);
+        } catch (error) {
+            const message = parseError(error);
+            console.error(message);
+            res.status(400).json({ message });
+        }
     }
-});
+);
 
-authController.get('/login', isGuest(), (req, res) => {
-    // TODO replace with real view
-    res.render('./auth/login', {
-        title: 'Login Page'
-    });
-});
-
-authController.post('/login', isGuest(), async (req, res) => {
+authController.post('/login', async (req, res) => {
     try {
-        if (req.body.username === '' || req.body.password === '') {
-            throw new Error('All fields are required');
+        const token = await login(req.body.email, req.body.password);
+        console.log('Token created on login: ', token);
+        if (process.env.NODE_ENV === 'production') {
+            console.log('production');
+            res.cookie(authCookieName, token.authToken, { httpOnly: true, sameSite: 'none', secure: true });
+        } else {
+            console.log('dev');
+            res.cookie(authCookieName, token.authToken, { httpOnly: true });
         }
 
-        const token = await login(req.body.username, req.body.password);
-        res.cookie('token', token);
-        res.redirect('/'); // TODO Check the redirect
+        res.status(200).json(token);
     } catch (error) {
-        // TODO Add Error Parser
-        res.locals.errors = parseError(error);
-
-        // TODO Add Error display to the template
-        res.render('./auth/login', {
-            title: 'Login Page',
-            user: {
-                username: req.body.username
-            }
-        });
+        const message = parseError(error);
+        console.error(message);
+        res.status(401).json({ message });
     }
 });
 
-authController.get('/logout', (req, res) => {
-    res.clearCookie('token');
-    res.redirect('/');
+authController.get('/logout', async (req, res) => {
+    const token = req.token;
+    console.log('Logout token: ', token);
+    try {
+        await logout(token);
+        console.log('Logged out!');
+        res.clearCookie(authCookieName)
+            .status(204)
+            .json({
+                messageEn: 'Logged out!',
+                messageBg: 'Успешно отписване'
+            });
+
+        console.log('Cookie cleared!');
+
+    } catch (error) {
+        const message = parseError(error);
+        console.error(message);
+        res.status(401).json({ message });
+    }
 });
 
 module.exports = authController;
