@@ -30,5 +30,5 @@ module.exports = (app) => {
     }));
     app.use(cookieParser(cookieSecret));
     app.use(session());
-    app.use(trimBody('password'));
+    // app.use(trimBody('password'));
 };
