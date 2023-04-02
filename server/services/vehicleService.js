@@ -2,7 +2,7 @@ const Vehicle = require("../models/Vehicle");
 
 
 async function getAllVehiclesCreatedByUser(userId) {
-    return Vehicle.find({ owner: userId }, { owner: 0, __v: 0 }).sort({ createdAt: -1 });
+    return Vehicle.find({ ownerId: userId }, { ownerId: 0, __v: 0 }).sort({ createdAt: -1 });
 }
 
 async function getVehicleById(id) {
@@ -22,6 +22,10 @@ async function updateVehicle(vehicle, data) {
     vehicle.yearOfManufacture = data.yearOfManufacture;
     vehicle.description = data.description;
     vehicle.updatedAt = new Date().toISOString();
+
+    if (data.imageUrl) {
+        vehicle.imageUrl = data.imageUrl;
+    }
 
     return vehicle.save();
 }

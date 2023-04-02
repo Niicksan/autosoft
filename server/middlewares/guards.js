@@ -24,10 +24,13 @@ function isGuest() {
     };
 }
 
-function isOwner() {
+function isOwner(type) {
     return (req, res, next) => {
-        if (req.user && res.locals.vehicle.owner == req.user._id) {
-            res.locals.isOwner = true;
+        if (type === 'vehicle' && (req.user && res.locals.vehicle.ownerId == req.user._id)) {
+            res.locals.isVehicleOwner = true;
+            next();
+        } else if (type === 'service' && (req.user && res.locals.service.ownerId == req.user._id)) {
+            res.locals.isServiceOwner = true;
             next();
         } else {
             return res.status(403).json({

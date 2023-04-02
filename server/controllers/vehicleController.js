@@ -8,8 +8,8 @@ const preloader = require('../middlewares/preloader');
 
 
 vehicleController.get('/:id',
-    preloader(),
-    isOwner(),
+    preloader('vehicle'),
+    isOwner('vehicle'),
     async (req, res) => {
         const vehicle = res.locals.vehicle;
         res.json(vehicle);
@@ -23,7 +23,7 @@ vehicleController.post('/create',
     check('engine').isLength({ min: 2 }).withMessage('Engine must be at least 2 characters'),
     check('fuel').isLength({ min: 2 }).withMessage('Fuel must be at least 2 characters'),
     check('yearOfManufacture').isInt({ min: 1920, max: new Date().getFullYear() }).withMessage('Year is not correct'),
-    hasUser(),
+    hasUser('vehicle'),
     async (req, res) => {
         try {
             const { errors } = validationResult(req);
@@ -38,7 +38,7 @@ vehicleController.post('/create',
 
             const vehicle = {
                 ...req.body,
-                owner: req.user._id,
+                ownerId: req.user._id,
             };
             console.log(vehicle);
 
@@ -59,8 +59,8 @@ vehicleController.patch('/:id',
     check('engine').isLength({ min: 2 }).withMessage('Engine must be at least 2 characters'),
     check('fuel').isLength({ min: 2 }).withMessage('Fuel must be at least 2 characters'),
     check('yearOfManufacture').isInt({ min: 1920, max: new Date().getFullYear() }).withMessage('Year is not correct'),
-    preloader(),
-    isOwner(),
+    preloader('vehicle'),
+    isOwner('vehicle'),
     async (req, res) => {
         const vehicle = res.locals.vehicle;
 
@@ -82,7 +82,7 @@ vehicleController.patch('/:id',
 );
 
 vehicleController.delete('/:id',
-    preloader(),
+    preloader('vehicle'),
     isOwner(),
     async (req, res) => {
         try {
@@ -96,6 +96,7 @@ vehicleController.delete('/:id',
             console.error(message);
             res.status(400).json({ message });
         }
-    });
+    }
+);
 
 module.exports = vehicleController;
