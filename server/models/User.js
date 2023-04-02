@@ -8,8 +8,8 @@ const userSchema = new Schema({
     imageUrl: { type: String, required: true, default: 'default-profile.png' },
     vehicles: { type: [Types.ObjectId], ref: 'Vehicle', default: [] },
     roles: { type: [{ type: String, enum: ['user', 'admin'] }], default: ['user'] },
-    createdAt: { type: String, required: true, default: () => (new Date().toLocaleString('eu-Eu')) },
-    updatedAt: { type: String, required: true, default: () => (new Date().toLocaleString('eu-Eu')) }
+    createdAt: { type: String, required: true, default: () => (new Date().toISOString()) },
+    updatedAt: { type: String, required: true, default: () => (new Date().toISOString()) }
 });
 
 userSchema.index({ email: 1 }, {

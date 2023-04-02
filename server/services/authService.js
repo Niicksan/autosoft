@@ -63,9 +63,10 @@ function createToken({ _id, email, companyName }) {
 
 async function parseToken(token) {
     const isTokenBlacklisted = await TokenBlacklist.findOne({ token });
+    console.log('parse token: ', isTokenBlacklisted);
 
     if (isTokenBlacklisted) {
-        return new Error('Token is blacklisted');
+        throw new Error('Token is blacklisted');
     }
 
     return jwt.verify(token, JWT_SECRET);

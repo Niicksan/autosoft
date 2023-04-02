@@ -1,13 +1,22 @@
-// const { getBookById, getBookByIdRaw } = require("../services/bookService");
-// TODO
+const { getVehicleById } = require("../services/vehicleService");
+const { parseError } = require("../utils/errorParser");
 
-// module.exports = (lean) => async (req, res, next) => {
-//     if (lean) {
-//         res.locals.book = await getBookById(req.params.id);
 
-//     } else {
-//         res.locals.book = await getBookByIdRaw(req.params.id);
-//     }
+module.exports = () => async (req, res, next) => {
+    try {
+        res.locals.vehicle = await getVehicleById(req.params.id);
 
-//     next();
-// };
+        if (res.locals.vehicle === null) {
+            throw new Error("Item doesn't exist");
+        }
+    } catch (error) {
+        const message = parseError(error);
+        console.log(message);
+        res.status(404).json({
+            messageEn: "Item doesn't exist",
+            messageBg: "Несъществуващ елемент"
+        });
+    }
+
+    next();
+};

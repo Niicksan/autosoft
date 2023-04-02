@@ -26,7 +26,7 @@ function isGuest() {
 
 function isOwner() {
     return (req, res, next) => {
-        if (req.user && res.locals.pet.owner == req.user._id) {
+        if (req.user && res.locals.vehicle.owner == req.user._id) {
             res.locals.isOwner = true;
             next();
         } else {

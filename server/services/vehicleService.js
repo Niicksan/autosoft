@@ -21,7 +21,7 @@ async function updateVehicle(vehicle, data) {
     vehicle.fuel = data.fuel;
     vehicle.yearOfManufacture = data.yearOfManufacture;
     vehicle.description = data.description;
-    vehicle.updatedAt = new Date().toLocaleString('eu-Eu');
+    vehicle.updatedAt = new Date().toISOString();
 
     if (data.imageUrl) {
         vehicle.imageUrl = data.imageUrl;

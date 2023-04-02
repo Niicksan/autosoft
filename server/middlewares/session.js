@@ -3,15 +3,17 @@ const { authCookieName } = require("../config/auth-config");
 
 
 module.exports = () => async (req, res, next) => {
-    // const token = req.cookies[authCookieName];
-    let token = req.headers['x-authorization'];
-    console.log('Session token: ', token);
-    if (token) {
+    // const cookieToken = req.cookies[authCookieName];
+    let authToken = req.headers['x-authorization'];
+
+    // console.log('Session cookieToken: ', cookieToken);
+    console.log('Session authToken: ', authToken);
+    if (authToken) {
         try {
-            const payload = await parseToken(token);
+            const payload = await parseToken(authToken);
             console.log('Session payload: ', payload);
             req.user = payload;
-            req.token = token;
+            req.token = authToken;
 
             console.log('Session req.user: ', req.user);
             console.log('Session req.token: ', req.token);

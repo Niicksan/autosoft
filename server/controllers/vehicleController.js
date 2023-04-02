@@ -13,7 +13,7 @@ vehicleController.post('/create',
     check('model').isLength({ min: 2 }).withMessage('Model name must be at least 2 characters'),
     check('engine').isLength({ min: 2 }).withMessage('Engine must be at least 2 characters'),
     check('fuel').isLength({ min: 2 }).withMessage('Fuel must be at least 2 characters'),
-    check('yearOfManufacture').isNumeric({ min: 1920, max: new Date().getFullYear() }).withMessage('Year is not correct'),
+    check('yearOfManufacture').isInt({ min: 1920, max: new Date().getFullYear() }).withMessage('Year is not correct'),
     hasUser(),
     async (req, res) => {
         try {
@@ -31,6 +31,7 @@ vehicleController.post('/create',
                 ...req.body,
                 owner: req.user._id,
             };
+            console.log(vehicle);
 
             const createdVehicle = await createVehicle(vehicle);
             res.json(createdVehicle);
@@ -42,10 +43,13 @@ vehicleController.post('/create',
     }
 );
 
-vehicleController.get('/:id', async (req, res) => {
-    const vehicle = res.locals.vehicle;
-    res.json(vehicle);
-});
+vehicleController.get('/:id',
+    preloader(),
+    async (req, res) => {
+        const vehicle = res.locals.vehicle;
+        res.json(vehicle);
+    }
+);
 
 vehicleController.patch('/:id',
     check('vinNumber').isLength(17).withMessage('Vin Number must be 17 characters long'),
@@ -53,18 +57,18 @@ vehicleController.patch('/:id',
     check('model').isLength({ min: 2 }).withMessage('Model name must be at least 2 characters'),
     check('engine').isLength({ min: 2 }).withMessage('Engine must be at least 2 characters'),
     check('fuel').isLength({ min: 2 }).withMessage('Fuel must be at least 2 characters'),
-    check('yearOfManufacture').isNumeric({ min: 1920, max: () => { new Date().getFullYear() } }).withMessage('Year is not correct'),
-    // preloader(),
+    check('yearOfManufacture').isInt({ min: 1920, max: new Date().getFullYear() }).withMessage('Year is not correct'),
+    preloader(),
     isOwner(),
     async (req, res) => {
-        const pet = res.locals.pet;
+        const vehicle = res.locals.vehicle;
 
         // if (req.body.imageUrl == '') {
         //     req.body.imageUrl = 'default-vehicle.png';
         // }
 
         try {
-            const result = await updateVehicle(pet, req.body);
+            const result = await updateVehicle(vehicle, req.body);
             res.json(result);
         } catch (error) {
             const message = parseError(error);

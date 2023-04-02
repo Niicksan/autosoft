@@ -72,17 +72,18 @@ authController.get('/logout', async (req, res) => {
     const token = req.token;
     console.log('Logout token: ', token);
     try {
-        await logout(token);
+        if (token) {
+            await logout(token);
+        }
+
         console.log('Logged out!');
-        res.clearCookie(authCookieName)
-            .status(204)
-            .json({
-                messageEn: 'Logged out!',
-                messageBg: 'Успешно отписване'
-            });
+        res.clearCookie(authCookieName);
+        res.status(200).json({
+            messageEn: 'Logged out!',
+            messageBg: 'Успешно отписване'
+        });
 
         console.log('Cookie cleared!');
-
     } catch (error) {
         const message = parseError(error);
         console.error(message);
