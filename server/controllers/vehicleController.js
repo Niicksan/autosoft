@@ -7,6 +7,15 @@ const { hasUser, isOwner } = require('../middlewares/guards');
 const preloader = require('../middlewares/preloader');
 
 
+vehicleController.get('/:id',
+    preloader(),
+    isOwner(),
+    async (req, res) => {
+        const vehicle = res.locals.vehicle;
+        res.json(vehicle);
+    }
+);
+
 vehicleController.post('/create',
     check('vinNumber').isLength(17).withMessage('Vin Number must be 17 characters long'),
     check('brand').isLength({ min: 2 }).withMessage('Brand name must be at least 2 characters'),
@@ -43,14 +52,6 @@ vehicleController.post('/create',
     }
 );
 
-vehicleController.get('/:id',
-    preloader(),
-    async (req, res) => {
-        const vehicle = res.locals.vehicle;
-        res.json(vehicle);
-    }
-);
-
 vehicleController.patch('/:id',
     check('vinNumber').isLength(17).withMessage('Vin Number must be 17 characters long'),
     check('brand').isLength({ min: 2 }).withMessage('Brand name must be at least 2 characters'),
@@ -63,11 +64,13 @@ vehicleController.patch('/:id',
     async (req, res) => {
         const vehicle = res.locals.vehicle;
 
-        // if (req.body.imageUrl == '') {
-        //     req.body.imageUrl = 'default-vehicle.png';
-        // }
-
         try {
+            const { errors } = validationResult(req);
+
+            if (errors.length > 0) {
+                throw errors;
+            }
+
             const result = await updateVehicle(vehicle, req.body);
             res.json(result);
         } catch (error) {
@@ -79,12 +82,12 @@ vehicleController.patch('/:id',
 );
 
 vehicleController.delete('/:id',
-    // preloader(), 
+    preloader(),
     isOwner(),
     async (req, res) => {
         try {
             await deleteVehicleById(req.params.id);
-            res.status(204).json({
+            res.status(200).json({
                 messageEn: "Item deleted successfully",
                 messageBg: "Успешно изтриване"
             });
