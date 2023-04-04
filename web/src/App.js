@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
 import NavigationBar from './components/NavigationBar/NavigationBar';
+import { Footer } from './components/Footer/Footer';
 
 function App() {
     return (
@@ -115,6 +116,8 @@ function App() {
                     dolores sunt inventore perferendis, aut sapiente modi nesciunt.
                 </Typography>
             </Box>
+
+            <Footer />
         </div>
     );
 }

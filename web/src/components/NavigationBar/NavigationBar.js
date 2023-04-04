@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -38,15 +37,6 @@ const NavigationBar = (props) => {
             </Slide>
         );
     }
-
-    HideOnScroll.propTypes = {
-        children: PropTypes.element.isRequired,
-        /**
-         * Injected by the documentation to work in an iframe.
-         * You won't need it on your project.
-         */
-        window: PropTypes.func,
-    };
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -99,13 +89,5 @@ const NavigationBar = (props) => {
         </Box>
     );
 }
-
-NavigationBar.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
-    window: PropTypes.func,
-};
 
 export default NavigationBar;
