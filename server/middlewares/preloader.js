@@ -5,15 +5,15 @@ const { parseError } = require("../utils/errorParser");
 
 module.exports = (type) => async (req, res, next) => {
     try {
-        if (type = 'vehicle') {
-            res.locals.vehicle = await getVehicleById(req.params.id);
+        if (type == 'vehicle') {
+            global.vehicle = await getVehicleById(req.params.id);
 
-            if (res.locals.vehicle === null) {
+            if (global.vehicle === null) {
                 throw new Error("Item doesn't exist");
             }
         }
 
-        if (type = 'service') {
+        if (type == 'service') {
             res.locals.service = await getServiceById(req.params.id);
 
             if (res.locals.service === null) {

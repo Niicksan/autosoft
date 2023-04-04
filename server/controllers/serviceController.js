@@ -17,9 +17,9 @@ serviceController.get('/:id',
 );
 
 serviceController.post('/create',
-    check('title').isLength(17).withMessage('Vin Number must be 17 characters long'),
-    check('kilometers').isLength({ min: 2 }).withMessage('Brand name must be at least 2 characters'),
-    check('description').isLength({ min: 2 }).withMessage('Model name must be at least 2 characters'),
+    check('title').isLength(2).withMessage('Title must be 2 characters long'),
+    check('kilometers').isLength({ min: 2 }).withMessage('Kilometers name must be at least 2 characters'),
+    check('description').isLength({ min: 2 }).withMessage('Description must be at least 2 characters'),
     isOwner('vehicle'),
     async (req, res) => {
         try {
@@ -28,11 +28,11 @@ serviceController.post('/create',
             if (errors.length > 0) {
                 throw errors;
             }
-
+            console.log("vehicle: ", global.vehicle)
             const service = {
                 ...req.body,
                 ownerId: req.user._id,
-                vehicleId: res.locals.vehicle._id
+                vehicleId: global.vehicle._id
             };
             console.log(service);
 
@@ -47,16 +47,18 @@ serviceController.post('/create',
 );
 
 serviceController.patch('/:id',
-    check('title').isLength(17).withMessage('Vin Number must be 17 characters long'),
-    check('kilometers').isLength({ min: 2 }).withMessage('Brand name must be at least 2 characters'),
-    check('description').isLength({ min: 2 }).withMessage('Model name must be at least 2 characters'),
+    check('title').isLength(2).withMessage('Title must be 2 characters long'),
+    check('kilometers').isLength({ min: 2 }).withMessage('Kilometers name must be at least 2 characters'),
+    check('description').isLength({ min: 2 }).withMessage('Description must be at least 2 characters'),
     preloader('service'),
     isOwner('service'),
     async (req, res) => {
         const service = res.locals.service;
-
+        console.log(service)
         try {
             const { errors } = validationResult(req);
+            console.log(errors);
+            console.log(req);
 
             if (errors.length > 0) {
                 throw errors;

@@ -11,7 +11,7 @@ vehicleController.get('/:id',
     preloader('vehicle'),
     isOwner('vehicle'),
     async (req, res) => {
-        const vehicle = res.locals.vehicle;
+        const vehicle = global.vehicle;
         res.json(vehicle);
     }
 );
@@ -62,7 +62,7 @@ vehicleController.patch('/:id',
     preloader('vehicle'),
     isOwner('vehicle'),
     async (req, res) => {
-        const vehicle = res.locals.vehicle;
+        const vehicle = global.vehicle;
 
         try {
             const { errors } = validationResult(req);

@@ -10,9 +10,9 @@ async function createService(service) {
 }
 
 async function updateService(service, data) {
-    title.vinNumber = data.vinNumber;
-    kilometers.brand = data.brand;
-    description.model = data.model;
+    service.title = data.title;
+    service.kilometers = data.kilometers;
+    service.description = data.description;
 
     return service.save();
 }

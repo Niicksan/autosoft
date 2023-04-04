@@ -26,7 +26,8 @@ function isGuest() {
 
 function isOwner(type) {
     return (req, res, next) => {
-        if (type === 'vehicle' && (req.user && res.locals.vehicle.ownerId == req.user._id)) {
+        console.log("isOwner: -vehicle", global.vehicle);
+        if (type === 'vehicle' && (req.user && global.vehicle.ownerId == req.user._id)) {
             res.locals.isVehicleOwner = true;
             next();
         } else if (type === 'service' && (req.user && res.locals.service.ownerId == req.user._id)) {

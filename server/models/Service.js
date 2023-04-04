@@ -5,8 +5,8 @@ const serviceSchema = new Schema({
     title: { type: String, required: true },
     kilometers: { type: String, required: true },
     description: { type: String, required: true },
-    ownerId: { type: Types.ObjectId, ref: 'User' },
     vehicleId: { type: Types.ObjectId, ref: 'Vehicle' },
+    ownerId: { type: Types.ObjectId, ref: 'User' },
     createdAt: { type: String, required: true, default: () => (new Date().toISOString()) },
     updatedAt: { type: String, required: true, default: () => (new Date().toISOString()) }
 });
