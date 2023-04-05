@@ -1,55 +1,69 @@
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+import { Link } from 'react-router-dom';
 
-export const MobileNavItems = () => {
+import { ListItem, ListItemButton, ListItemText } from '@mui/material';
+
+export const MobileNavItems = ({ handleDrawerToggle }) => {
     return (
         <>
-            <ListItem key={'catalog'} disablePadding>
+            <ListItem onClick={handleDrawerToggle} component={Link} to="/catalog/vehicle" key={'catalog'} disablePadding>
                 <ListItemButton sx={{
-                    textAlign: 'center', color: '#550A21', ":hover": {
+                    textAlign: 'left', color: '#550A21', paddingLeft: "90px", ":hover": {
                         border: "1px solid #550A21"
                     }
                 }}>
-                    <ListItemText primary={'Catalog'} />
+                    <ListItemText primary={'Автомобили'} />
                 </ListItemButton>
             </ListItem>
-            <ListItem key={'my-profile'} disablePadding>
+
+            <ListItem onClick={handleDrawerToggle} component={Link} to="/vehicle/create" key={'/vehicle-craete'} disablePadding>
                 <ListItemButton sx={{
-                    textAlign: 'center', color: '#550A21', ":hover": {
+                    textAlign: 'left', color: '#550A21', paddingLeft: "90px", ":hover": {
                         border: "1px solid #550A21"
                     }
                 }}>
-                    <ListItemText primary={'My profile'} />
+                    <ListItemText primary={'Добави'} />
                 </ListItemButton>
             </ListItem>
-            <ListItem key={'login'} disablePadding>
+
+            <ListItem onClick={handleDrawerToggle} component={Link} to="/user/my-profile" key={'my-profile'} disablePadding>
                 <ListItemButton sx={{
-                    textAlign: 'center', color: '#550A21', ":hover": {
+                    textAlign: 'left', color: '#550A21', paddingLeft: "90px", ":hover": {
                         border: "1px solid #550A21"
                     }
                 }}>
-                    <ListItemText primary={'Login'} />
+                    <ListItemText primary={'Моя Профил'} />
                 </ListItemButton>
             </ListItem>
-            <ListItem key={'register'} disablePadding>
+
+            <ListItem onClick={handleDrawerToggle} component={Link} to="/auth/login" key={'login'} disablePadding>
                 <ListItemButton sx={{
-                    textAlign: 'center', color: '#550A21', ":hover": {
+                    textAlign: 'left', color: '#550A21', paddingLeft: "90px", ":hover": {
                         border: "1px solid #550A21"
                     }
                 }}>
-                    <ListItemText primary={'Register'} />
+                    <ListItemText primary={'Вход'} />
                 </ListItemButton>
             </ListItem>
-            <ListItem key={'logot'} disablePadding>
+
+            <ListItem onClick={handleDrawerToggle} component={Link} to="/auth/register" key={'register'} disablePadding>
                 <ListItemButton sx={{
-                    textAlign: 'center', color: '#550A21', ":hover": {
+                    textAlign: 'left', color: '#550A21', paddingLeft: "90px", ":hover": {
                         border: "1px solid #550A21"
                     }
                 }}>
-                    <ListItemText primary={'Logout'} />
+                    <ListItemText primary={'Регистрация'} />
+                </ListItemButton>
+            </ListItem>
+
+            <ListItem onClick={handleDrawerToggle} component={Link} to="/auth/logout" key={'logot'} disablePadding>
+                <ListItemButton sx={{
+                    textAlign: 'left', color: '#550A21', paddingLeft: "90px", ":hover": {
+                        border: "1px solid #550A21"
+                    }
+                }}>
+                    <ListItemText primary={'Изход'} />
                 </ListItemButton>
             </ListItem>
         </>
-    )
+    );
 };

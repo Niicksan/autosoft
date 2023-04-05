@@ -1,48 +1,59 @@
-import Button from '@mui/material/Button';
+import '../NavigationBar.scss';
+
+import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 export const WebNavItems = () => {
     return (
         <>
-            <Button key={'catalog'} sx={{
+            <Button component={Link} to='/catalog/vehicle' key={'catalog'} sx={{
                 color: '#fff', ":hover": {
                     bgcolor: "white",
                     color: "#550A21"
                 }
             }}>
-                Catalog
+                Автомобили
             </Button>
-            <Button key={'my-profile'} sx={{
+            <Button component={Link} to='/vehicle/create' key={'catalog'} sx={{
                 color: '#fff', ":hover": {
                     bgcolor: "white",
                     color: "#550A21"
                 }
             }}>
-                My profile
+                Добави
             </Button>
-            <Button key={'login'} sx={{
+            <Button component={Link} to='/user/my-profile' key={'my-profile'} sx={{
                 color: '#fff', ":hover": {
                     bgcolor: "white",
                     color: "#550A21"
                 }
             }}>
-                Login
+                Моят профил
             </Button>
-            <Button key={'register'} sx={{
+            <Button component={Link} to='/auth/login' key={'login'} sx={{
                 color: '#fff', ":hover": {
                     bgcolor: "white",
                     color: "#550A21"
                 }
             }}>
-                Register
+                Вход
             </Button>
-            <Button key={'logout'} sx={{
+            <Button component={Link} to='/auth/register' key={'register'} sx={{
                 color: '#fff', ":hover": {
                     bgcolor: "white",
                     color: "#550A21"
                 }
             }}>
-                Logout
+                Регистрация
+            </Button>
+            <Button component={Link} to='/auth/logout' Button key={'logout'} sx={{
+                color: '#fff', ":hover": {
+                    bgcolor: "white",
+                    color: "#550A21"
+                }
+            }}>
+                Изход
             </Button>
         </>
-    )
+    );
 };

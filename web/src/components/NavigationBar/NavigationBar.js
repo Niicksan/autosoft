@@ -1,12 +1,8 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
+import { Link } from 'react-router-dom';
+
+import { Box, CssBaseline, Drawer, AppBar, Toolbar, Typography, IconButton, Slide } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Slide from '@mui/material/Slide';
+
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 
 import { WebNavItems } from './WebNavItems/WebNavItems';
@@ -14,7 +10,7 @@ import { DrawerItems } from './DrawerItems/DrawerItems';
 
 import { useState } from 'react';
 
-const NavigationBar = (props) => {
+export const NavigationBar = (props) => {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -32,7 +28,7 @@ const NavigationBar = (props) => {
         });
 
         return (
-            <Slide appear={false} direction="down" in={!trigger}>
+            <Slide appear={false} direction="down" in={!trigger} >
                 {children}
             </Slide>
         );
@@ -41,17 +37,19 @@ const NavigationBar = (props) => {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex' }} >
             <CssBaseline />
             <HideOnScroll {...props}>
                 <AppBar component="nav" sx={{ backgroundColor: '#550A21' }}>
-                    <Toolbar>
+                    <Toolbar sx={{ width: '100%', maxWidth: '1920px', margin: '0 auto' }}>
                         <Typography
                             variant="h6"
                             component="div"
                             sx={{ flexGrow: 1, textAlign: 'left' }}
                         >
-                            AutoSoft
+                            <Link to="/" className='navigation-link'>
+                                AutoSoft
+                            </Link>
                         </Typography>
                         <IconButton
                             color="inherit"
@@ -88,6 +86,4 @@ const NavigationBar = (props) => {
             </Box>
         </Box>
     );
-}
-
-export default NavigationBar;
+};
