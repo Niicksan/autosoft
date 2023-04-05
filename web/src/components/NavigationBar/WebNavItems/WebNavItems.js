@@ -6,7 +6,7 @@ import { Button } from '@mui/material';
 export const WebNavItems = () => {
     return (
         <>
-            <Button component={Link} to='/catalog/vehicle' key={'catalog'} sx={{
+            <Button component={Link} to='/catalog/vehicles' key={'catalog'} sx={{
                 color: '#fff', ":hover": {
                     bgcolor: "white",
                     color: "#550A21"
@@ -14,7 +14,7 @@ export const WebNavItems = () => {
             }}>
                 Автомобили
             </Button>
-            <Button component={Link} to='/vehicle/create' key={'catalog'} sx={{
+            <Button component={Link} to='/vehicle/create' key={'vehicle-create'} sx={{
                 color: '#fff', ":hover": {
                     bgcolor: "white",
                     color: "#550A21"
@@ -46,7 +46,7 @@ export const WebNavItems = () => {
             }}>
                 Регистрация
             </Button>
-            <Button component={Link} to='/auth/logout' Button key={'logout'} sx={{
+            <Button component={Link} to='/auth/logout' key={'logout'} sx={{
                 color: '#fff', ":hover": {
                     bgcolor: "white",
                     color: "#550A21"

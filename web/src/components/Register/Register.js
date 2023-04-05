@@ -1,19 +1,32 @@
+import { useState, useContext } from "react";
 import { Link } from 'react-router-dom';
 
-import { Container, Avatar, Button, CssBaseline, TextField, Box, Grid, Typography } from '@mui/material';
+import { Container, Avatar, Button, CssBaseline, TextField, Box, Grid, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { AuthContext } from "../../contexts/AuthContext";
+import { useForm } from "../../hooks/useForm";
 
 const theme = createTheme();
 
 export const Register = () => {
-    const handleSubmit = (event) => {
+    const { onRegisterSubmit } = useContext(AuthContext);
+    const { values, changeHandler, onSubmit } = useForm({
+        email: '',
+        password: '',
+        confirmPassword: '',
+    }, onRegisterSubmit);
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
     };
 
     return (
@@ -34,7 +47,7 @@ export const Register = () => {
                     <Typography component="h1" variant="h5">
                         Регистрация в AutoSoft
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
@@ -43,38 +56,69 @@ export const Register = () => {
                             label="Имейл адрес"
                             name="email"
                             autoComplete="email"
+                            value={values.email}
                             autoFocus
+                            onChange={changeHandler}
                         />
                         <TextField
                             margin="normal"
                             required
                             fullWidth
-                            id="companyName"
+                            id="company-name"
                             label="Име на фирма"
                             name="companyName"
                             autoComplete="companyName"
-                            autoFocus
+                            value={values.companyName}
+                            onChange={changeHandler}
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Парола"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="repass"
-                            label="Потвърдете паролота"
-                            type="password"
-                            id="repass"
-                            autoComplete="current-password"
-                        />
+                        <FormControl sx={{ width: '45ch', margin: '8px 0' }} variant="outlined">
+                            <InputLabel htmlFor="password">Парола</InputLabel>
+                            <OutlinedInput
+                                required
+                                id="password"
+                                label="Парола"
+                                type={showPassword ? 'text' : 'password'}
+                                name="password"
+                                value={values.password}
+                                onChange={changeHandler}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        <FormControl sx={{ width: '45ch', margin: '8px 0' }} variant="outlined">
+                            <InputLabel htmlFor="confirmPassword">Повторете ааролата</InputLabel>
+                            <OutlinedInput
+                                required
+                                id="confirmPassword"
+                                label="Повторете ааролата"
+                                type={showConfirmPassword ? 'text' : 'password'}
+                                name="confirmPassword"
+                                value={values.confirmPassword}
+                                onChange={changeHandler}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleClickShowConfirmPassword}
+                                            edge="end"
+                                        >
+                                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
                         <Button
                             type="submit"
                             fullWidth

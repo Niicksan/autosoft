@@ -1,19 +1,30 @@
+import { useState, useContext } from "react";
 import { Link } from 'react-router-dom';
 
-import { Container, Avatar, Button, CssBaseline, TextField, Box, Grid, Typography } from '@mui/material';
+import { Container, Avatar, Button, CssBaseline, TextField, Box, Grid, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { AuthContext } from "../../contexts/AuthContext";
+import { useForm } from "../../hooks/useForm";
 
 const theme = createTheme();
 
 export const Login = () => {
-    const handleSubmit = (event) => {
+    const { onLoginSubmit } = useContext(AuthContext);
+    const { values, changeHandler, onSubmit } = useForm({
+        email: '',
+        password: '',
+        confirmPassword: '',
+    }, onLoginSubmit);
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
     };
 
     return (
@@ -34,7 +45,7 @@ export const Login = () => {
                     <Typography component="h1" variant="h5">
                         Вход в AutoSoft
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
@@ -45,16 +56,30 @@ export const Login = () => {
                             autoComplete="email"
                             autoFocus
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Парола"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
+                        <FormControl sx={{ width: '45ch', margin: '8px 0' }} variant="outlined">
+                            <InputLabel htmlFor="password">Парола</InputLabel>
+                            <OutlinedInput
+                                required
+                                id="password"
+                                label="Парола"
+                                type={showPassword ? 'text' : 'password'}
+                                name="password"
+                                value={values.password}
+                                onChange={changeHandler}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
                         <Button
                             type="submit"
                             fullWidth

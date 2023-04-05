@@ -5,7 +5,7 @@ import { ListItem, ListItemButton, ListItemText } from '@mui/material';
 export const MobileNavItems = ({ handleDrawerToggle }) => {
     return (
         <>
-            <ListItem onClick={handleDrawerToggle} component={Link} to="/catalog/vehicle" key={'catalog'} disablePadding>
+            <ListItem onClick={handleDrawerToggle} component={Link} to="/catalog/vehicles" key={'catalog'} disablePadding>
                 <ListItemButton sx={{
                     textAlign: 'left', color: '#550A21', paddingLeft: "90px", ":hover": {
                         border: "1px solid #550A21"
@@ -15,7 +15,7 @@ export const MobileNavItems = ({ handleDrawerToggle }) => {
                 </ListItemButton>
             </ListItem>
 
-            <ListItem onClick={handleDrawerToggle} component={Link} to="/vehicle/create" key={'/vehicle-craete'} disablePadding>
+            <ListItem onClick={handleDrawerToggle} component={Link} to="/vehicle/create" key={'vehicle-craete'} disablePadding>
                 <ListItemButton sx={{
                     textAlign: 'left', color: '#550A21', paddingLeft: "90px", ":hover": {
                         border: "1px solid #550A21"
