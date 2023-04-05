@@ -17,10 +17,10 @@ const request = async (method, url, data) => {
     if (serializedAuth) {
         const auth = JSON.parse(serializedAuth);
 
-        if (auth.accessToken) {
+        if (auth.authToken) {
             options.headers = {
                 ...options.headers,
-                'X-Authorization': auth.accessToken,
+                'X-Authorization': auth.authToken,
             }
         }
     }

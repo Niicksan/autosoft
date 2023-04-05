@@ -12,7 +12,7 @@ export const AuthProvider = ({
     const [auth, setAuth] = useLocalStorage('auth', {});
     const navigate = useNavigate();
 
-    const authService = authServiceFactory(auth.accessToken);
+    const authService = authServiceFactory(auth.authToken);
 
     const onLoginSubmit = async (loginFormData) => {
         try {
@@ -26,18 +26,15 @@ export const AuthProvider = ({
     }
 
     const onRegisterSubmit = async (registerFormData) => {
-        const { confirmPassword, ...registerData } = registerFormData
-
-        // if (confirmPassword !== registerData.password) {
-        //     return;
-        // }
-
         try {
-            // const user = await authService.register(registerData);
+            const user = await authService.register(registerFormData);
 
-            // setAuth(user);
+            console.log(user)
+            if (user) {
+                setAuth(user);
+            }
 
-            // navigate('/catalog/vehicles');
+            navigate('/catalog/vehicles');
         } catch (error) {
             console.log('There is a problem', error);
         }
@@ -54,9 +51,9 @@ export const AuthProvider = ({
         onRegisterSubmit,
         onLogout,
         userId: auth._id,
-        token: auth.accessToken,
+        token: auth.authToken,
         userEmail: auth.email,
-        isAuthenticated: !!auth.accessToken,
+        isAuthenticated: !!auth.authToken,
     };
 
     return (
