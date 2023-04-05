@@ -6,7 +6,7 @@ const config = {
         port: process.env.PORT || 3030,
         dbURL: 'mongodb://localhost:27017/autosoft',
         //dbURL: 'mongodb+srv://niksan:aiROMoGZxAy7vzJY@petfindme.ocortq9.mongodb.net/?retryWrites=true&w=majority',
-        origin: ['http://localhost:4200']
+        origin: ['http://localhost:3000']
     },
     production: {
         host: process.env.HOST,
