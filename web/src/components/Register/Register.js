@@ -12,6 +12,8 @@ import { useForm } from "../../hooks/useForm";
 const theme = createTheme();
 
 export const Register = () => {
+    const emailReg = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/);
+
     const { error, setError, onRegisterSubmit } = useContext(AuthContext);
     const { values, changeHandler, onSubmit } = useForm({
         email: '',
@@ -19,8 +21,6 @@ export const Register = () => {
         password: '',
         confirmPassword: '',
     }, onRegisterSubmit);
-
-    const emailReg = new RegExp(/[a-z]+@[a-z]+\.[a-z]/);
 
     const [user, setUser] = useState({
         email: '',
@@ -32,8 +32,6 @@ export const Register = () => {
     const [isFormValid, setIsFormValid] = useState(false);
 
     useEffect(() => {
-        console.log(user);
-        console.log(error);
         checkIsFormValid()
     }, [user.email, user.companyName, user.password, user.confirmPassword]);
 
@@ -44,8 +42,6 @@ export const Register = () => {
             (error.password && user.password !== '') &&
             (error.confirmPassword && user.confirmPassword !== '')
         ) ? setIsFormValid(true) : setIsFormValid(false);
-
-        console.log(isFormValid);
     }
 
     const [showPassword, setShowPassword] = useState(false);
@@ -105,7 +101,7 @@ export const Register = () => {
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 6,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -134,6 +130,8 @@ export const Register = () => {
                             }}
                         />
                         {!error.email && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Невалиден имейл</Typography>}
+                        {error.isUserExist && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>{error.isUserExist}</Typography>}
+
                         <TextField
                             error={!error.companyName}
                             margin="normal"
@@ -150,11 +148,10 @@ export const Register = () => {
                             }}
                         />
                         {!error.companyName && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Името трябва да съдържа поне 2 символа</Typography>}
-                        <FormControl sx={{ width: '45ch', margin: '8px 0' }} variant="outlined">
+                        <FormControl fullWidth required sx={{ margin: '8px 0' }} variant="outlined">
                             <InputLabel htmlFor="password">Парола</InputLabel>
                             <OutlinedInput
                                 error={!error.password}
-                                required
                                 id="password"
                                 label="Парола"
                                 type={showPassword ? 'text' : 'password'}
@@ -179,11 +176,10 @@ export const Register = () => {
                             />
                         </FormControl>
                         {!error.password && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Паролата трябва е дълга поне 5 символа</Typography>}
-                        <FormControl sx={{ width: '45ch', margin: '8px 0' }} variant="outlined">
+                        <FormControl required fullWidth sx={{ margin: '8px 0' }} variant="outlined">
                             <InputLabel htmlFor="confirmPassword">Повторете паролата</InputLabel>
                             <OutlinedInput
                                 error={!error.confirmPassword}
-                                required
                                 id="confirmPassword"
                                 label="Повторете паролата"
                                 type={showConfirmPassword ? 'text' : 'password'}
@@ -208,7 +204,6 @@ export const Register = () => {
                             />
                         </FormControl>
                         {!error.confirmPassword && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Паролите не съвпадат</Typography>}
-                        {error.isUserExist && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>{error.isUserExist}</Typography>}
 
                         <Button
                             disabled={!isFormValid}

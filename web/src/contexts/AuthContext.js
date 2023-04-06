@@ -25,14 +25,19 @@ export const AuthProvider = ({
 
     const authService = authServiceFactory(auth.authToken);
 
-
     const onLoginSubmit = async (loginFormData) => {
         try {
             const user = await authService.login(loginFormData);
 
-            setAuth(user);
-            navigate('/catalog/vehicles');
+            if (user?._id) {
+                setAuth(user);
+                navigate('/catalog/vehicles');
+            } else {
+                setError({ ...error, invalidLoginData: user?.message });
+            }
         } catch (err) {
+            setError({ ...error, invalidLoginData: err?.message });
+            console.log(error.invalidLoginData);
             console.log('Please check your email or password', err);
         }
     }
@@ -43,11 +48,10 @@ export const AuthProvider = ({
 
             if (user?._id) {
                 setAuth(user);
+                navigate('/catalog/vehicles');
             } else {
                 setError({ ...error, isUserExist: user?.message });
             }
-
-            navigate('/catalog/vehicles');
         } catch (err) {
             setError({ ...error, isUserExist: err?.message });
             console.log('There is a problem', err);

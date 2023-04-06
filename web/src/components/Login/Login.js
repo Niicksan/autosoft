@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useEffect } from "react";
 import { Link } from 'react-router-dom';
 
 import { Container, Avatar, Button, CssBaseline, TextField, Box, Grid, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
@@ -6,26 +6,33 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { AuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
+import { useAuthValidation } from "../../hooks/useAuthValidation";
 
 const theme = createTheme();
 
 export const Login = () => {
-    const { onLoginSubmit } = useContext(AuthContext);
+    const {
+        error,
+        user,
+        isLoginFormValid,
+        onLoginSubmit,
+        checkIsLoginFormValid,
+        handleClickEmail,
+        handleClickPassword,
+        showPassword,
+        handleClickShowPassword,
+        handleMouseDownPassword
+    } = useAuthValidation();
+
     const { values, changeHandler, onSubmit } = useForm({
         email: '',
         password: '',
-        confirmPassword: '',
     }, onLoginSubmit);
 
-    const [showPassword, setShowPassword] = useState(false);
-
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+    useEffect(() => {
+        checkIsLoginFormValid()
+    }, [user.email, user.password]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -45,8 +52,9 @@ export const Login = () => {
                     <Typography component="h1" variant="h5">
                         Вход в AutoSoft
                     </Typography>
-                    <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
                         <TextField
+                            error={!error.email}
                             margin="normal"
                             required
                             fullWidth
@@ -54,18 +62,26 @@ export const Login = () => {
                             label="Имейл адрес"
                             name="email"
                             autoComplete="email"
-                            autoFocus
+                            onChange={(e) => {
+                                changeHandler(e);
+                                handleClickEmail(e);
+                            }}
                         />
-                        <FormControl sx={{ width: '45ch', margin: '8px 0' }} variant="outlined">
+                        {!error.email && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Невалиден имейл</Typography>}
+
+                        <FormControl fullWidth required sx={{ margin: '8px 0' }} variant="outlined">
                             <InputLabel htmlFor="password">Парола</InputLabel>
                             <OutlinedInput
-                                required
+                                error={!error.password}
                                 id="password"
                                 label="Парола"
                                 type={showPassword ? 'text' : 'password'}
                                 name="password"
                                 value={values.password}
-                                onChange={changeHandler}
+                                onChange={(e) => {
+                                    changeHandler(e);
+                                    handleClickPassword(e);
+                                }}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -80,7 +96,11 @@ export const Login = () => {
                                 }
                             />
                         </FormControl>
+                        {!error.password && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Паролата трябва е дълга поне 5 символа</Typography>}
+                        {error.invalidLoginData && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>{error.invalidLoginData}</Typography>}
+
                         <Button
+                            disabled={!isLoginFormValid}
                             type="submit"
                             fullWidth
                             variant="contained"

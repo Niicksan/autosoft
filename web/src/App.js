@@ -1,6 +1,6 @@
 import './App.css';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { Box, Toolbar } from '@mui/material';
 
@@ -19,8 +19,13 @@ import { Contacts } from './components/Contacts/Contacts';
 import { Forbidden } from './components/Error/Forbidden/Forbidden';
 import { NotFound } from './components/Error/NotFound/NotFound';
 import { Footer } from './components/Footer/Footer';
+import { seTabTitle } from './utils/setTabTitle';
 
 function App() {
+    const { pathname } = useLocation();
+
+    seTabTitle(pathname);
+
     return (
         <AuthProvider >
             <div className="app">
@@ -32,9 +37,9 @@ function App() {
                         <Route path='/catalog/vehicles' element={<Catalog />} />
                         <Route path='/vehicle/create' element={<CreateVehicle />} />
                         <Route path='/user/my-profile' element={<MyProfile />} />
-                        <Route path='/auth/logout' element={<Logout />} />
                         <Route path='/auth/login' element={<Login />} />
                         <Route path='/auth/register' element={<Register />} />
+                        <Route path='/auth/logout' element={<Logout />} />
                         <Route path='/about' element={<About />} />
                         <Route path='/contacts' element={<Contacts />} />
                         <Route path="/403" element={<Forbidden />} />
