@@ -41,9 +41,9 @@ export const NavigationBar = (props) => {
             <CssBaseline />
             <HideOnScroll {...props}>
                 <AppBar component="nav" sx={{ backgroundColor: '#550A21' }}>
-                    <Toolbar sx={{ width: '100%', maxWidth: '1920px', margin: '0 auto' }}>
+                    <Toolbar sx={{ width: '95%', maxWidth: '1920px', margin: '0 auto' }}>
                         <Typography
-                            variant="h6"
+                            variant="h5"
                             component="div"
                             sx={{ flexGrow: 1, textAlign: 'left' }}
                         >
