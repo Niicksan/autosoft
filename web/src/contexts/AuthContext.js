@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
@@ -10,9 +10,21 @@ export const AuthProvider = ({
     children
 }) => {
     const [auth, setAuth] = useLocalStorage('auth', {});
+    const [profileData, setProfileData] = useState({});
+
+    const [error, setError] = useState({
+        email: true,
+        companyName: true,
+        password: true,
+        confirmPassword: true,
+        isUserExist: '',
+        invalidLoginData: ''
+    })
+
     const navigate = useNavigate();
 
     const authService = authServiceFactory(auth.authToken);
+
 
     const onLoginSubmit = async (loginFormData) => {
         try {
@@ -20,8 +32,8 @@ export const AuthProvider = ({
 
             setAuth(user);
             navigate('/catalog/vehicles');
-        } catch (error) {
-            console.log('Please check your email or password', error);
+        } catch (err) {
+            console.log('Please check your email or password', err);
         }
     }
 
@@ -29,14 +41,16 @@ export const AuthProvider = ({
         try {
             const user = await authService.register(registerFormData);
 
-            console.log(user)
-            if (user) {
+            if (user?._id) {
                 setAuth(user);
+            } else {
+                setError({ ...error, isUserExist: user?.message });
             }
 
             navigate('/catalog/vehicles');
-        } catch (error) {
-            console.log('There is a problem', error);
+        } catch (err) {
+            setError({ ...error, isUserExist: err?.message });
+            console.log('There is a problem', err);
         }
     }
 
@@ -47,6 +61,10 @@ export const AuthProvider = ({
     };
 
     const contextValues = {
+        profileData,
+        setProfileData,
+        error,
+        setError,
         onLoginSubmit,
         onRegisterSubmit,
         onLogout,

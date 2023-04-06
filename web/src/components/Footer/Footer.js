@@ -1,5 +1,11 @@
 import './Footer.scss';
 
+import { Link } from 'react-router-dom';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleInfo, faCircleQuestion, faEnvelope, faPhone, faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import { faInstagram, faTwitter, faFacebook } from '@fortawesome/free-brands-svg-icons'
+
 export const Footer = () => {
     return (
         <footer className="footer">
@@ -7,12 +13,12 @@ export const Footer = () => {
                 <div className="about">
                     <h4>Информация</h4>
                     <ul>
-                        <a href="/about-us">
-                            <li><i className="fa fas fa-info-circle"></i>За нас</li>
-                        </a>
-                        <a href="/contact-us">
-                            <li><i className="fa fas fa-question-circle"></i>Помощ</li>
-                        </a>
+                        <Link to="/about">
+                            <li><FontAwesomeIcon icon={faCircleInfo} className="fa" />За нас</li>
+                        </Link>
+                        <Link to="/contacts">
+                            <li><FontAwesomeIcon icon={faCircleQuestion} className="fa" />Помощ</li>
+                        </Link>
                     </ul>
                 </div>
 
@@ -20,13 +26,13 @@ export const Footer = () => {
                     <h4>Последвайте ни</h4>
                     <ul>
                         <a href="https://www.instagram.com/" className="instagram">
-                            <li><i className="fa fab fa-instagram instagram"></i>Instagram</li>
+                            <li><FontAwesomeIcon icon={faInstagram} className="fa" />Instagram</li>
                         </a>
                         <a href="https://twitter.com/" className="twitter">
-                            <li><i className="fa fab fa-twitter twitter"></i>Twitter</li>
+                            <li><FontAwesomeIcon icon={faTwitter} className="fa" />Twitter</li>
                         </a>
                         <a href="https://facebook.com" className="facebook">
-                            <li><i className="fa fab fa-facebook-square facebook"></i>Facebook</li>
+                            <li><FontAwesomeIcon icon={faFacebook} className="fa" />Facebook</li>
                         </a>
                     </ul>
                 </div>
@@ -34,9 +40,9 @@ export const Footer = () => {
                 <div className="contact">
                     <h4>Връзка с нас</h4>
                     <ul>
-                        <li><i className="fa fas fa-envelope"></i>Емейл: petfind@me.bg</li>
-                        <li><i className="fa fa-solid fa-phone"></i>Телефон: 0888888888</li>
-                        <li><i className="fa fas fa-map-marker-alt"></i>Адрес: София бул. Академик 57</li>
+                        <li><FontAwesomeIcon icon={faEnvelope} className="fa" />Емейл: petfind@me.bg</li>
+                        <li><FontAwesomeIcon icon={faPhone} className="fa" />Телефон: 0888888888</li>
+                        <li><FontAwesomeIcon icon={faLocationDot} className="fa" />Адрес: София бул. Академик 57</li>
                     </ul>
                 </div>
             </section>

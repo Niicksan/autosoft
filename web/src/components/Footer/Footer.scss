@@ -10,17 +10,19 @@ $navbar-blue: #550A21;
     .container {
         display: flex;
         justify-content: space-around;
-        padding-top: 1em;
+        padding: 3em 0 0em;
 
         h4 {
-            padding: 1.3em 0 0.3em 0;
-            color: $navbar-blue;
+            padding: 0.3em 0;
+            color: $white;
+            margin: 0;
         }
 
         .about {
             li {
                 &:hover {
-                    color: $navbar-blue;
+                    color: $white;
+                    text-decoration: underline;
                 }
             }
         }
@@ -28,7 +30,9 @@ $navbar-blue: #550A21;
         ul {
             list-style-type: none;
             border-top: 1px solid $white;
-            padding-top: 0.5em;
+            padding: 0.5em 0;
+            padding-left: 0;
+            margin: 0.5rem 0;
 
             li {
                 margin-bottom: 0.25em;
@@ -41,7 +45,7 @@ $navbar-blue: #550A21;
 
             li,
             a {
-                i.fa {
+                .fa {
                     margin-right: 0.5em;
                 }
             }
@@ -71,8 +75,7 @@ $navbar-blue: #550A21;
 
     .bottom {
         text-align: center;
-        margin-top: 1.7em;
-        padding-bottom: 1.7em;
+        margin: 1em 0 2em;
     }
 }
 

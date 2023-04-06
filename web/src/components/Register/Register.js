@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from 'react-router-dom';
 
 import { Container, Avatar, Button, CssBaseline, TextField, Box, Grid, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
@@ -12,7 +12,7 @@ import { useForm } from "../../hooks/useForm";
 const theme = createTheme();
 
 export const Register = () => {
-    const { onRegisterSubmit } = useContext(AuthContext);
+    const { error, setError, onRegisterSubmit } = useContext(AuthContext);
     const { values, changeHandler, onSubmit } = useForm({
         email: '',
         companyName: '',
@@ -22,23 +22,27 @@ export const Register = () => {
 
     const emailReg = new RegExp(/[a-z]+@[a-z]+\.[a-z]/);
 
-    const [email, setEmail] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [user, setUser] = useState({
+        email: '',
+        companyName: '',
+        password: '',
+        confirmPassword: '',
+    })
 
-    const [isEmailValid, setIsEmailValid] = useState(true);
-    const [isCompanyNameValid, setIsCompanyNameValid] = useState(true);
-    const [isPasswordValid, setIsPasswordValid] = useState(true);
-    const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true);
     const [isFormValid, setIsFormValid] = useState(false);
+
+    useEffect(() => {
+        console.log(user);
+        console.log(error);
+        checkIsFormValid()
+    }, [user.email, user.companyName, user.password, user.confirmPassword]);
 
     const checkIsFormValid = () => {
         (
-            (isEmailValid && email !== '') &&
-            (isCompanyNameValid && companyName !== '') &&
-            (isPasswordValid && password !== '') &&
-            (isConfirmPasswordValid && confirmPassword !== '')
+            (error.email && user.email !== '') &&
+            (error.companyName && user.companyName !== '') &&
+            (error.password && user.password !== '') &&
+            (error.confirmPassword && user.confirmPassword !== '')
         ) ? setIsFormValid(true) : setIsFormValid(false);
 
         console.log(isFormValid);
@@ -50,42 +54,42 @@ export const Register = () => {
     const handleClickEmail = (e) => {
         if (emailReg.test(e.target.value)) {
             // email.className = 'success';
-            setIsEmailValid(true);
+            setError({ ...error, email: true });
         } else {
-            setIsEmailValid(false);
+            setError({ ...error, email: false });
         }
 
-        setEmail(e.target.value);
+        setUser({ ...user, email: e.target.value });
     };
 
     const handleClickCompanyName = (e) => {
         if ((e.target.value).length > 1) {
-            setIsCompanyNameValid(true);
+            setError({ ...error, companyName: true });
         } else {
-            setIsCompanyNameValid(false);
+            setError({ ...error, companyName: false });
         }
 
-        setCompanyName(e.target.value);
+        setUser({ ...user, companyName: e.target.value });
     };
 
     const handleClickPassword = (e) => {
         if ((e.target.value).length > 4) {
-            setIsPasswordValid(true);
+            setError({ ...error, password: true });
         } else {
-            setIsPasswordValid(false);
+            setError({ ...error, password: false });
         }
 
-        setPassword(e.target.value);
+        setUser({ ...user, password: e.target.value });
     };
 
-    const confirmPasswordConfirmPassword = (e) => {
-        if (e.target.value === password) {
-            setIsConfirmPasswordValid(true);
+    const handleClickConfirmPassword = (e) => {
+        if (e.target.value === user.password) {
+            setError({ ...error, confirmPassword: true });
         } else {
-            setIsConfirmPasswordValid(false);
+            setError({ ...error, confirmPassword: false });
         }
 
-        setConfirmPassword(e.target.value);
+        setUser({ ...user, confirmPassword: e.target.value });
     };
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -115,7 +119,7 @@ export const Register = () => {
                     </Typography>
                     <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
                         <TextField
-                            error={!isEmailValid}
+                            error={!error.email}
                             margin="normal"
                             required
                             fullWidth
@@ -124,13 +128,14 @@ export const Register = () => {
                             name="email"
                             autoComplete="email"
                             value={values.email}
-                            autoFocus
-                            onChange={changeHandler}
-                            onBlur={(e) => { handleClickEmail(e); checkIsFormValid(e); }}
+                            onChange={(e) => {
+                                changeHandler(e);
+                                handleClickEmail(e);
+                            }}
                         />
-                        {!isEmailValid && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Невалиден имейл</Typography>}
+                        {!error.email && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Невалиден имейл</Typography>}
                         <TextField
-                            error={!isCompanyNameValid}
+                            error={!error.companyName}
                             margin="normal"
                             required
                             fullWidth
@@ -139,22 +144,26 @@ export const Register = () => {
                             name="companyName"
                             autoComplete="companyName"
                             value={values.companyName}
-                            onChange={changeHandler}
-                            onBlur={(e) => { handleClickCompanyName(e); checkIsFormValid(e); }}
+                            onChange={(e) => {
+                                changeHandler(e);
+                                handleClickCompanyName(e);
+                            }}
                         />
-                        {!isCompanyNameValid && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Името трябва да съдържа поне 2 символа</Typography>}
+                        {!error.companyName && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Името трябва да съдържа поне 2 символа</Typography>}
                         <FormControl sx={{ width: '45ch', margin: '8px 0' }} variant="outlined">
                             <InputLabel htmlFor="password">Парола</InputLabel>
                             <OutlinedInput
-                                error={!isPasswordValid}
+                                error={!error.password}
                                 required
                                 id="password"
                                 label="Парола"
                                 type={showPassword ? 'text' : 'password'}
                                 name="password"
                                 value={values.password}
-                                onChange={changeHandler}
-                                onBlur={(e) => { handleClickPassword(e); checkIsFormValid(e); }}
+                                onChange={(e) => {
+                                    changeHandler(e);
+                                    handleClickPassword(e);
+                                }}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -169,19 +178,21 @@ export const Register = () => {
                                 }
                             />
                         </FormControl>
-                        {!isPasswordValid && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Паролата трябва е дълга поне 5 символа</Typography>}
+                        {!error.password && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Паролата трябва е дълга поне 5 символа</Typography>}
                         <FormControl sx={{ width: '45ch', margin: '8px 0' }} variant="outlined">
                             <InputLabel htmlFor="confirmPassword">Повторете паролата</InputLabel>
                             <OutlinedInput
-                                error={!isConfirmPasswordValid}
+                                error={!error.confirmPassword}
                                 required
                                 id="confirmPassword"
                                 label="Повторете паролата"
                                 type={showConfirmPassword ? 'text' : 'password'}
                                 name="confirmPassword"
                                 value={values.confirmPassword}
-                                onChange={changeHandler}
-                                onBlur={(e) => { confirmPasswordConfirmPassword(e); checkIsFormValid(e); }}
+                                onChange={(e) => {
+                                    changeHandler(e);
+                                    handleClickConfirmPassword(e);
+                                }}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -196,7 +207,9 @@ export const Register = () => {
                                 }
                             />
                         </FormControl>
-                        {!isConfirmPasswordValid && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Паролите не съвпадат</Typography>}
+                        {!error.confirmPassword && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Паролите не съвпадат</Typography>}
+                        {error.isUserExist && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>{error.isUserExist}</Typography>}
+
                         <Button
                             disabled={!isFormValid}
                             type="submit"
