@@ -97,5 +97,5 @@ export const useAuthValidation = () => {
         handleClickShowPassword,
         handleClickShowConfirmPassword,
         handleMouseDownPassword
-    }
-} 
+    };
+};

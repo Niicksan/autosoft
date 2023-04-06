@@ -12,10 +12,11 @@ const routes = {
     "/404": '404 Страницата не беше намерена',
 
 };
+
 export const seTabTitle = (pathname) => {
     if (pathname === '/') {
         document.title = routes[pathname];
     } else {
         document.title = `${routes['/']} - ${routes[pathname]}`;
     }
-}
+};

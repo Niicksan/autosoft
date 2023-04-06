@@ -174,4 +174,4 @@ export const Register = () => {
             </Container>
         </ThemeProvider >
     );
-}
+};
