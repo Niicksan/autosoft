@@ -17,9 +17,9 @@ export const Login = () => {
         user,
         isLoginFormValid,
         onLoginSubmit,
-        checkIsLoginFormValid,
         handleClickEmail,
         handleClickPassword,
+        checkIsLoginFormValid,
         showPassword,
         handleClickShowPassword,
         handleMouseDownPassword

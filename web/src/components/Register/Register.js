@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { Link } from 'react-router-dom';
 
 import { Container, Avatar, Button, CssBaseline, TextField, Box, Grid, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
@@ -6,15 +6,29 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { AuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
+import { useAuthValidation } from "../../hooks/useAuthValidation";
 
 const theme = createTheme();
 
 export const Register = () => {
-    const emailReg = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/);
+    const {
+        error,
+        user,
+        isRegFormValid,
+        onRegisterSubmit,
+        handleClickEmail,
+        handleClickCompanyName,
+        handleClickPassword,
+        handleClickConfirmPassword,
+        checkIsRegFormValid,
+        showPassword,
+        showConfirmPassword,
+        handleClickShowPassword,
+        handleClickShowConfirmPassword,
+        handleMouseDownPassword
+    } = useAuthValidation();
 
-    const { error, setError, onRegisterSubmit } = useContext(AuthContext);
     const { values, changeHandler, onSubmit } = useForm({
         email: '',
         companyName: '',
@@ -22,78 +36,9 @@ export const Register = () => {
         confirmPassword: '',
     }, onRegisterSubmit);
 
-    const [user, setUser] = useState({
-        email: '',
-        companyName: '',
-        password: '',
-        confirmPassword: '',
-    })
-
-    const [isFormValid, setIsFormValid] = useState(false);
-
     useEffect(() => {
-        checkIsFormValid()
+        checkIsRegFormValid()
     }, [user.email, user.companyName, user.password, user.confirmPassword]);
-
-    const checkIsFormValid = () => {
-        (
-            (error.email && user.email !== '') &&
-            (error.companyName && user.companyName !== '') &&
-            (error.password && user.password !== '') &&
-            (error.confirmPassword && user.confirmPassword !== '')
-        ) ? setIsFormValid(true) : setIsFormValid(false);
-    }
-
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-    const handleClickEmail = (e) => {
-        if (emailReg.test(e.target.value)) {
-            // email.className = 'success';
-            setError({ ...error, email: true });
-        } else {
-            setError({ ...error, email: false });
-        }
-
-        setUser({ ...user, email: e.target.value });
-    };
-
-    const handleClickCompanyName = (e) => {
-        if ((e.target.value).length > 1) {
-            setError({ ...error, companyName: true });
-        } else {
-            setError({ ...error, companyName: false });
-        }
-
-        setUser({ ...user, companyName: e.target.value });
-    };
-
-    const handleClickPassword = (e) => {
-        if ((e.target.value).length > 4) {
-            setError({ ...error, password: true });
-        } else {
-            setError({ ...error, password: false });
-        }
-
-        setUser({ ...user, password: e.target.value });
-    };
-
-    const handleClickConfirmPassword = (e) => {
-        if (e.target.value === user.password) {
-            setError({ ...error, confirmPassword: true });
-        } else {
-            setError({ ...error, confirmPassword: false });
-        }
-
-        setUser({ ...user, confirmPassword: e.target.value });
-    };
-
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -206,7 +151,7 @@ export const Register = () => {
                         {!error.confirmPassword && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Паролите не съвпадат</Typography>}
 
                         <Button
-                            disabled={!isFormValid}
+                            disabled={!isRegFormValid}
                             type="submit"
                             fullWidth
                             variant="contained"

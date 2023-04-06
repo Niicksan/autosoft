@@ -4,21 +4,17 @@ import { AuthContext } from "../contexts/AuthContext";
 export const useAuthValidation = () => {
     const emailRegex = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/);
 
-    const { error, setError, onLoginSubmit } = useContext(AuthContext);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const { error, setError, onLoginSubmit, onRegisterSubmit } = useContext(AuthContext);
+    const [isLoginFormValid, setIsLoginFormValid] = useState(false);
+    const [isRegFormValid, setIsRegFormValid] = useState(false);
     const [user, setUser] = useState({
         email: '',
         companyName: '',
         password: '',
         confirmPassword: '',
     })
-    const [isLoginFormValid, setIsLoginFormValid] = useState(false);
-
-    const checkIsLoginFormValid = () => {
-        (
-            (error.email && user.email !== '') &&
-            (error.password && user.password !== '')
-        ) ? setIsLoginFormValid(true) : setIsLoginFormValid(false);
-    }
 
     const handleClickEmail = (e) => {
         if (emailRegex.test(e.target.value)) {
@@ -28,6 +24,16 @@ export const useAuthValidation = () => {
         }
 
         setUser({ ...user, email: e.target.value });
+    };
+
+    const handleClickCompanyName = (e) => {
+        if ((e.target.value).length > 1) {
+            setError({ ...error, companyName: true });
+        } else {
+            setError({ ...error, companyName: false });
+        }
+
+        setUser({ ...user, companyName: e.target.value });
     };
 
     const handleClickPassword = (e) => {
@@ -40,9 +46,34 @@ export const useAuthValidation = () => {
         setUser({ ...user, password: e.target.value });
     };
 
-    const [showPassword, setShowPassword] = useState(false);
+    const handleClickConfirmPassword = (e) => {
+        if (e.target.value === user.password) {
+            setError({ ...error, confirmPassword: true });
+        } else {
+            setError({ ...error, confirmPassword: false });
+        }
+
+        setUser({ ...user, confirmPassword: e.target.value });
+    };
+
+    const checkIsLoginFormValid = () => {
+        (
+            (error.email && user.email !== '') &&
+            (error.password && user.password !== '')
+        ) ? setIsLoginFormValid(true) : setIsLoginFormValid(false);
+    }
+
+    const checkIsRegFormValid = () => {
+        (
+            (error.email && user.email !== '') &&
+            (error.companyName && user.companyName !== '') &&
+            (error.password && user.password !== '') &&
+            (error.confirmPassword && user.confirmPassword !== '')
+        ) ? setIsRegFormValid(true) : setIsRegFormValid(false);
+    }
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -52,12 +83,19 @@ export const useAuthValidation = () => {
         error,
         user,
         isLoginFormValid,
+        isRegFormValid,
         onLoginSubmit,
-        checkIsLoginFormValid,
+        onRegisterSubmit,
         handleClickEmail,
+        handleClickCompanyName,
         handleClickPassword,
+        handleClickConfirmPassword,
+        checkIsLoginFormValid,
+        checkIsRegFormValid,
         showPassword,
+        showConfirmPassword,
         handleClickShowPassword,
+        handleClickShowConfirmPassword,
         handleMouseDownPassword
     }
 } 
