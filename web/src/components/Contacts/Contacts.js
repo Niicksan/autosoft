@@ -61,6 +61,7 @@ export const Contacts = () => {
                             label="Вашето име"
                             name="name"
                             autoComplete="name"
+                            value={values.name}
                             onChange={(e) => {
                                 changeHandler(e);
                                 handleClickName(e);
@@ -77,6 +78,7 @@ export const Contacts = () => {
                             label="Вашият email"
                             name="email"
                             autoComplete="email"
+                            value={values.email}
                             onChange={(e) => {
                                 changeHandler(e);
                                 handleClickEmail(e);
@@ -93,6 +95,7 @@ export const Contacts = () => {
                             label="Вашата тема"
                             name="subject"
                             autoComplete="subject"
+                            value={values.subject}
                             onChange={(e) => {
                                 changeHandler(e);
                                 handleClickSubject(e);
@@ -102,14 +105,16 @@ export const Contacts = () => {
 
                         <TextField
                             error={!error.message}
-                            fullWidth
                             margin="normal"
-                            label="Вашето съобщение"
-                            multiline
                             required
+                            fullWidth
                             id="message"
+                            label="Вашето съобщение"
                             name="message"
+                            multiline
                             rows={4}
+                            autoComplete="message"
+                            value={values.message}
                             onChange={(e) => {
                                 changeHandler(e);
                                 handleClickMessage(e);
