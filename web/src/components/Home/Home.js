@@ -14,7 +14,7 @@ export const Home = () => {
                             <strong className="brand-name"> AutoSoft</strong>
                         </h1>
                         <h2>
-                            Регистрирай се напълно безплато
+                            Регистрирай се напълно безплатно
                         </h2>
                         <div>
                             <Link to="/auth/register" className="btn-get-started ">

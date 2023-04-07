@@ -40,7 +40,7 @@ export const Footer = () => {
                 <div className="contact">
                     <h4>Връзка с нас</h4>
                     <ul>
-                        <li><FontAwesomeIcon icon={faEnvelope} className="fa" />Емейл: petfind@me.bg</li>
+                        <li><FontAwesomeIcon icon={faEnvelope} className="fa" />Емейл: contacs@autosoft.com</li>
                         <li><FontAwesomeIcon icon={faPhone} className="fa" />Телефон: 0888888888</li>
                         <li><FontAwesomeIcon icon={faLocationDot} className="fa" />Адрес: София бул. Академик 57</li>
                     </ul>

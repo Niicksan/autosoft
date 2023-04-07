@@ -21,6 +21,9 @@ export const MyProfile = () => {
         }
     }, []);
 
+    const date = new Date(profileData?.createdAt);
+    const createdAt = date.toLocaleDateString('Bg-bg', { year: 'numeric', month: 'long', day: 'numeric' });
+
     return (
         <main className="profile">
             <div className="grid-header">
@@ -40,8 +43,8 @@ export const MyProfile = () => {
                         <p className="right">{profileData?.email}</p>
                     </div>
                     <div className="key-value">
-                        <p className="left">Създаден на : </p>
-                        <p className="right">{profileData?.createdAt}</p>
+                        <p className="left">Създаден на: </p>
+                        <p className="right">{createdAt}</p>
                     </div>
                 </div>
             </div>

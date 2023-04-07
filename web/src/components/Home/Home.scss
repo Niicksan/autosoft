@@ -30,7 +30,7 @@ $red: #550A21;
                 max-width: 70%;
 
                 .brand-name {
-                    color: #550A21;
+                    color: $red;
                 }
 
                 h1,
@@ -53,11 +53,11 @@ $red: #550A21;
 
                 .btn-get-started {
                     display: inline-block;
-                    border: 2px solid #550A21;
+                    border: 2px solid $red;
                     border-radius: 50px;
                     font-weight: 500;
                     font-size: 16px;
-                    color: #550A21;
+                    color: $red;
                     text-decoration: none;
                     letter-spacing: 1px;
                     transition: 0.5s;
