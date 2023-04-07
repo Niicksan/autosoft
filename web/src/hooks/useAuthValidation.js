@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { useState } from "react";
+import { useAuthContext } from "../contexts/AuthContext";
 
 export const useAuthValidation = () => {
     const emailRegex = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/);
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const { error, setError, onLoginSubmit, onRegisterSubmit } = useContext(AuthContext);
+    const { error, setError, onLoginSubmit, onRegisterSubmit } = useAuthContext();
     const [isLoginFormValid, setIsLoginFormValid] = useState(false);
     const [isRegFormValid, setIsRegFormValid] = useState(false);
     const [user, setUser] = useState({

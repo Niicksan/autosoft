@@ -1,0 +1,31 @@
+$red: #550A21;
+
+#catalog-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    min-height: 20vh;
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .add {
+        display: inline-block;
+        border: 2px solid $red;
+        border-radius: 50px;
+        font-weight: 500;
+        font-size: 16px;
+        color: $red;
+        text-decoration: none;
+        letter-spacing: 1px;
+        transition: 0.5s;
+        padding: 10px 30px;
+
+        &:hover {
+            background-color: #550A21;
+            color: #fff;
+        }
+    }
+}

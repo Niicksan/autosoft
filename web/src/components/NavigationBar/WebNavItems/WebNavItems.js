@@ -3,11 +3,10 @@ import '../NavigationBar.scss';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 
-import { useContext } from 'react';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { useAuthContext } from '../../../contexts/AuthContext';
 
 export const WebNavItems = () => {
-    const { isAuthenticated, userEmail } = useContext(AuthContext);
+    const { isAuthenticated } = useAuthContext();
 
     return (
         <>

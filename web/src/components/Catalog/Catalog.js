@@ -1,5 +1,31 @@
+import './Catalog.scss';
+
+import { Link } from 'react-router-dom';
+import { useVehicleContext } from "../../contexts/vehicleContext";
+import { VehicleItem } from './VehicleItem/VehicleItem';
+import { Box } from '@mui/system';
+
 export const Catalog = () => {
+    const { vehicles } = useVehicleContext();
+
+    console.log(vehicles);
     return (
-        <h1>Catalog</h1>
+        <section id="catalog-page">
+            <h1 style={{ color: '#550A21' }}>Каталог с aвтомобили</h1>
+
+            <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                {vehicles.length !== 0 && (vehicles.map(x =>
+                    <VehicleItem key={x._id} {...x} />
+                ))}
+            </Box>
+            {vehicles.length === 0 && (
+                <>
+                    <h3 className="no-articles">Все още няма добавени автомобили</h3>
+                    <Link to="/vehicle/create" className="add">
+                        Добави
+                    </Link>
+                </>
+            )}
+        </section>
     );
 };

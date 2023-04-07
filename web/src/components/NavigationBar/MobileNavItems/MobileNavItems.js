@@ -2,11 +2,10 @@ import { Link } from 'react-router-dom';
 
 import { ListItem, ListItemButton, ListItemText } from '@mui/material';
 
-import { useContext } from 'react';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { useAuthContext } from '../../../contexts/AuthContext';
 
 export const MobileNavItems = ({ handleDrawerToggle }) => {
-    const { isAuthenticated, userEmail } = useContext(AuthContext);
+    const { isAuthenticated } = useAuthContext();
 
     return (
         <>

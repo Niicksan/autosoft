@@ -1,11 +1,27 @@
 const vehicleController = require('express').Router();
 
 const { check, validationResult } = require('express-validator');
-const { createVehicle, deleteVehicleById, updateVehicle, getVehicleById } = require('../services/vehicleService');
+const { createVehicle, deleteVehicleById, updateVehicle, getVehicleById, getAllVehiclesCreatedByUser } = require('../services/vehicleService');
 const { parseError } = require('../utils/errorParser');
 const { hasUser, isOwner } = require('../middlewares/guards');
 const preloader = require('../middlewares/preloader');
 
+
+vehicleController.get('/catalog',
+    hasUser('vehicle'),
+    async (req, res) => {
+        try {
+            const userId = req.user._id;
+            const vehicles = await getAllVehiclesCreatedByUser(userId);
+
+            res.json(vehicles);
+        } catch (error) {
+            const message = parseError(error);
+            console.error(message);
+            res.status(400).json({ message });
+        }
+    }
+);
 
 vehicleController.get('/:id',
     preloader('vehicle'),

@@ -1,15 +1,15 @@
 import './MyProfile.scss';
 
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
 
 import { imageApi } from '../../env'
 
 import { userServiceFactory } from '../../services/userService';
-import { AuthContext } from '../../contexts/AuthContext';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 export const MyProfile = () => {
 
-    const { profileData, setProfileData } = useContext(AuthContext);
+    const { profileData, setProfileData } = useAuthContext();
     const userService = userServiceFactory();
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export const MyProfile = () => {
                     setProfileData(result);
                 })
         }
-    }, []);
+    }, [profileData?._id]);
 
     const date = new Date(profileData?.createdAt);
     const createdAt = date.toLocaleDateString('Bg-bg', { year: 'numeric', month: 'long', day: 'numeric' });
