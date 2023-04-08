@@ -1,7 +1,9 @@
 const routes = {
     '/': 'AutoSoft',
     '/catalog/vehicles': 'Каталог автомобили',
+    'catalog/vehicles/:id': 'Детайли',
     '/vehicle/create': 'Добавяне на автомобил',
+    '/catalog/vehicles/edit/:id': 'Редактиране на автомобил',
     '/user/my-profile': 'Моят проявил',
     '/auth/login': 'Вход',
     '/auth/register': 'Регистрация',

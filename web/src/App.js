@@ -10,6 +10,8 @@ import { VehicleProvider } from './contexts/vehicleContext';
 import { NavigationBar } from './components/NavigationBar/NavigationBar';
 import { Home } from './components/Home/Home';
 import { Catalog } from './components/Catalog/Catalog';
+import { VehicleDetails } from './components/Catalog/VehicleDetails/VehicleDetails';
+import { EditVehicle } from './components/Vehicle/EditVehicle/EditVehicle';
 import { CreateVehicle } from './components/Vehicle/CreateVehicle/CreateVehicle';
 import { MyProfile } from './components/MyProfile/MyProfile';
 import { Logout } from './components/Logout/Logout';
@@ -37,7 +39,8 @@ function App() {
                         <Routes>
                             <Route path='/' element={<Home />} />
                             <Route path='/catalog/vehicles' element={<Catalog />} />
-                            <Route path='/catalog/vehicles/:id' element={<Catalog />} />
+                            <Route path='/catalog/vehicles/:id' element={<VehicleDetails />} />
+                            <Route path='/catalog/vehicles/edit/:id' element={<EditVehicle />} />
                             <Route path='/vehicle/create' element={<CreateVehicle />} />
                             <Route path='/user/my-profile' element={<MyProfile />} />
                             <Route path='/auth/login' element={<Login />} />

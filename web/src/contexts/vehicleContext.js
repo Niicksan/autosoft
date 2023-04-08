@@ -12,7 +12,6 @@ export const VehicleProvider = ({
     const navigate = useNavigate();
 
     const { userId } = useAuthContext();
-
     const [vehicles, setVehicles] = useState([]);
     const vehicleService = vehicleServiceFactory();
     const [error, setError] = useState({
@@ -32,8 +31,17 @@ export const VehicleProvider = ({
             })
     }, [userId]);
 
-    const getVehicleById = (vehicleId) => {
-        return vehicles.find(vehicle => vehicle._id === vehicleId);
+    const getVehicleById = async (vehicleId) => {
+        try {
+            const vehicle = await vehicleService.getVehicleById(vehicleId);
+
+            return vehicle;
+
+        } catch (err) {
+            console.log(err);
+            console.log('There is a problem', err);
+        }
+
     };
 
     const onCreateVehicleSubmit = async (data) => {
@@ -45,14 +53,17 @@ export const VehicleProvider = ({
     };
 
     const onEditVehicleSubmit = async (vehicleValues) => {
-        const result = await vehicleService.editVehicle(vehicleValues._id, vehicleValues);
+        const { id, ...data } = vehicleValues;
 
-        setVehicles(state => state.map(x => x._id === vehicleValues._id ? result : x))
+        const result = await vehicleService.editVehicle(id, data);
+        setVehicles(state => state.map(x => x._id === id ? result : x))
 
-        navigate(`/catalog/${vehicleValues._id}`);
+        navigate('/catalog/vehicles');
     };
 
-    const onDeleteVehicleSubmit = (vehicleId) => {
+    const onDeleteVehicleSubmit = async (vehicleId) => {
+        const newVehicle = await vehicleService.deleteVehicle(vehicleId);
+        console.log(newVehicle);
         setVehicles(state => state.filter(vehicle => vehicle._id !== vehicleId));
     };
 

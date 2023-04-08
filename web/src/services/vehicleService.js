@@ -9,9 +9,7 @@ export const vehicleServiceFactory = (token) => {
 
     const getAllVehicles = async () => {
         const result = await request.get(`${baseUrl}/catalog`);
-        console.log(result);
         const vehicles = Object.values(result);
-        console.log(vehicles);
 
         return vehicles;
     };
@@ -30,9 +28,14 @@ export const vehicleServiceFactory = (token) => {
         return vehicle;
     };
 
-    const editVehicle = (vehicleId, vehicleData) => request.put(`${baseUrl}/${vehicleId}`, vehicleData);
+    const editVehicle = (vehicleId, vehicleData) => request.patch(`${baseUrl}/${vehicleId}`, vehicleData);
 
-    const deleteVehicle = (vehicleId) => request.delete(`${baseUrl}/${vehicleId}`);
+    const deleteVehicle = async (vehicleId) => {
+        const result = await request.delete(`${baseUrl}/${vehicleId}`);
+        console.log(result);
+
+        return result;
+    }
 
     return {
         getAllVehicles,

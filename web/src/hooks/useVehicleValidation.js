@@ -37,7 +37,7 @@ export const useVehicleValidation = () => {
     const urlRegex = new RegExp(/^https?:\/\/.+$/);
 
     const [isVehicleFormValid, setIsVehicleFormValid] = useState(false);
-    const { error, setError, onCreateVehicleSubmit } = useVehicleContext();
+    const { error, setError, onCreateVehicleSubmit, onEditVehicleSubmit } = useVehicleContext();
     const [form, setVehicleForm] = useState({
         vinNumber: '',
         brand: '',
@@ -49,7 +49,7 @@ export const useVehicleValidation = () => {
     });
 
     const handleClickVinNumber = (e) => {
-        if ((e.target.value).length > 16) {
+        if ((e.target.value).length === 17) {
             setError({ ...error, vinNumber: true });
         } else {
             setError({ ...error, vinNumber: false });
@@ -99,7 +99,6 @@ export const useVehicleValidation = () => {
     };
 
     const handleClickYearOfManufacture = (e) => {
-        console.log(e.target);
         if (years.some(x => x.value === e.target.value)) {
             setError({ ...error, yearOfManufacture: true });
         } else {
@@ -121,6 +120,7 @@ export const useVehicleValidation = () => {
 
     const checkIsVehicleFormValid = () => {
         console.log(error);
+        console.log(form);
         console.log(isVehicleFormValid);
         (
             (error.vinNumber && form.vinNumber !== '') &&
@@ -132,7 +132,8 @@ export const useVehicleValidation = () => {
             (error.imageUrl && form.imageUrl !== '')
         ) ? setIsVehicleFormValid(true) : setIsVehicleFormValid(false);
 
-        console.log((form.yearOfManufacture));
+        console.log(form.fuel);
+        console.log(form.yearOfManufacture);
     };
 
     return {
@@ -140,6 +141,7 @@ export const useVehicleValidation = () => {
         years,
         form,
         error,
+        setVehicleForm,
         isVehicleFormValid,
         handleClickVinNumber,
         handleClickBrand,
@@ -149,6 +151,7 @@ export const useVehicleValidation = () => {
         handleClickYearOfManufacture,
         handleClickImageUrl,
         onCreateVehicleSubmit,
+        onEditVehicleSubmit,
         checkIsVehicleFormValid
     };
 };

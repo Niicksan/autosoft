@@ -1,14 +1,16 @@
 import './Catalog.scss';
 
 import { Link } from 'react-router-dom';
-import { useVehicleContext } from "../../contexts/vehicleContext";
-import { VehicleItem } from './VehicleItem/VehicleItem';
+
 import { Box } from '@mui/system';
+
+import { useVehicleContext } from "../../contexts/vehicleContext";
+
+import { VehicleItem } from './VehicleItem/VehicleItem';
 
 export const Catalog = () => {
     const { vehicles } = useVehicleContext();
 
-    console.log(vehicles);
     return (
         <section id="catalog-page">
             <h1 style={{ color: '#550A21' }}>Каталог с aвтомобили</h1>

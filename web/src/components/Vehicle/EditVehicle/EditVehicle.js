@@ -1,21 +1,27 @@
-import './CreateVehicle.scss';
+import '../CreateVehicle/CreateVehicle.scss';
+
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Container, Avatar, Button, CssBaseline, TextField, Box, Typography, MenuItem } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+
+import EditIcon from '@mui/icons-material/Edit';
+
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useForm } from '../../../hooks/useForm';
 import { useVehicleValidation } from '../../../hooks/useVehicleValidation';
-import { useEffect } from 'react';
+import { useVehicleContext } from '../../../contexts/vehicleContext';
 
 const theme = createTheme();
 
-export const CreateVehicle = () => {
+export const EditVehicle = () => {
     const {
         fuels,
         years,
         form,
         error,
+        setVehicleForm,
         isVehicleFormValid,
         handleClickVinNumber,
         handleClickBrand,
@@ -24,11 +30,16 @@ export const CreateVehicle = () => {
         handleClickFuel,
         handleClickYearOfManufacture,
         handleClickImageUrl,
-        onCreateVehicleSubmit,
+        onEditVehicleSubmit,
         checkIsVehicleFormValid
     } = useVehicleValidation();
 
-    const { values, changeHandler, onSubmit } = useForm({
+    const { id } = useParams();
+    const [vehicle, setVehicle] = useState({});
+    const { getVehicleById } = useVehicleContext();
+
+    const { values, setValues, changeHandler, onSubmit } = useForm({
+        id: '',
         vinNumber: '',
         brand: '',
         model: '',
@@ -36,12 +47,51 @@ export const CreateVehicle = () => {
         fuel: '',
         yearOfManufacture: '',
         imageUrl: '',
-    }, onCreateVehicleSubmit);
+    }, onEditVehicleSubmit);
+
+    useEffect(() => {
+        getVehicleById(id)
+            .then(result => {
+                setVehicle(result);
+                setValues({
+                    ...values,
+                    id: result._id,
+                    vinNumber: result.vinNumber,
+                    brand: result.brand,
+                    model: result.model,
+                    engine: result.engine,
+                    fuel: result.fuel,
+                    yearOfManufacture: result.yearOfManufacture,
+                    imageUrl: result.imageUrl
+                });
+                setVehicleForm({
+                    ...values,
+                    id: result._id,
+                    vinNumber: result.vinNumber,
+                    brand: result.brand,
+                    model: result.model,
+                    engine: result.engine,
+                    fuel: result.fuel,
+                    yearOfManufacture: result.yearOfManufacture,
+                    imageUrl: result.imageUrl
+                });
+            })
+    }, [id]);
 
     useEffect(() => {
         checkIsVehicleFormValid()
-    }, [form.vinNumber, form.brand, form.model, form.engine, form.fuel, form.yearOfManufacture, form.imageUrl]);
+    }, [
+        form.vinNumber,
+        form.brand,
+        form.model,
+        form.engine,
+        form.fuel,
+        form.yearOfManufacture,
+        form.imageUrl
+    ]);
 
+    console.log(vehicle)
+    console.log(values)
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -55,10 +105,10 @@ export const CreateVehicle = () => {
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'green' }} >
-                        <AddIcon />
+                        <EditIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5" >
-                        Добавете атомобил
+                        Редактирай атомобил
                     </Typography>
                     <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
                         <TextField
@@ -202,7 +252,7 @@ export const CreateVehicle = () => {
                             variant="contained"
                             sx={{ mt: 3, mb: 2, bgcolor: '#550A21' }}
                         >
-                            Добави
+                            Редактирай
                         </Button>
                     </Box>
                 </Box>
