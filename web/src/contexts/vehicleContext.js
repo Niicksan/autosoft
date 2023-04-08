@@ -61,6 +61,11 @@ export const VehicleProvider = ({
             navigate('/catalog/vehicles');
         } catch (err) {
             setError({ ...error, isVinNumberExist: err?.message });
+
+            if (err.messageEn == "Access denied! You don't have rights to access this page!") {
+                console.log(err);
+                navigate('/403');
+            }
         }
 
         setTimeout(() => {
@@ -81,6 +86,11 @@ export const VehicleProvider = ({
             navigate('/catalog/vehicles');
         } catch (err) {
             setError({ ...error, isVinNumberExist: err?.message });
+
+            if (err.messageEn == "Access denied! You don't have rights to access this page!") {
+                console.log(err);
+                navigate('/403');
+            }
         }
 
         setTimeout(() => {
@@ -89,8 +99,15 @@ export const VehicleProvider = ({
     };
 
     const onDeleteVehicleSubmit = async (vehicleId) => {
-        await vehicleService.deleteVehicle(vehicleId);
-        setVehicles(state => state.filter(vehicle => vehicle._id !== vehicleId));
+        try {
+            await vehicleService.deleteVehicle(vehicleId);
+            setVehicles(state => state.filter(vehicle => vehicle._id !== vehicleId));
+        } catch (err) {
+            if (err.messageEn == "Access denied! You don't have rights to access this page!") {
+                console.log(err);
+                navigate('/403');
+            }
+        }
     };
 
     const contextValues = {
