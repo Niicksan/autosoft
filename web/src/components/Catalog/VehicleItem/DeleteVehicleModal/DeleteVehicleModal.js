@@ -16,7 +16,6 @@ export const DeleteVehicleModal = ({
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const { onDeleteVehicleSubmit } = useVehicleContext();
 
-    console.log(id);
     return (
         <div>
             <Dialog
@@ -26,11 +25,11 @@ export const DeleteVehicleModal = ({
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle id="responsive-dialog-title">
-                    {"Use Google's location service?"}
+                    {vehicleTitle}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Сигурни ли сте, че искате да изтриете автомобил {vehicleTitle}?
+                        Сигурни ли сте, че искате да изтриете този автомобил?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

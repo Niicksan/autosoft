@@ -127,6 +127,7 @@ export const EditVehicle = () => {
                             }}
                         />
                         {!error.vinNumber && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Вин номерът трябва да е 17 символа</Typography>}
+                        {error.isVinNumberExist && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>{error.isVinNumberExist}</Typography>}
 
                         <TextField
                             error={!error.brand} s

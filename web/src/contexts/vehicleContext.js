@@ -22,6 +22,7 @@ export const VehicleProvider = ({
         fuel: true,
         yearOfManufacture: true,
         imageUrl: true,
+        isVinNumberExist: '',
     });
 
     useEffect(() => {
@@ -45,25 +46,46 @@ export const VehicleProvider = ({
     };
 
     const onCreateVehicleSubmit = async (data) => {
-        const newVehicle = await vehicleService.createVehicle(data);
+        try {
+            const newVehicle = await vehicleService.createVehicle(data);
 
-        setVehicles(state => [...state, newVehicle]);
+            if (newVehicle.message) {
+                setError({ ...error, isVinNumberExist: newVehicle.message });
+            }
 
-        navigate('/catalog/vehicles');
+            setVehicles(state => [...state, newVehicle]);
+            navigate('/catalog/vehicles');
+        } catch (err) {
+            setError({ ...error, isVinNumberExist: err?.message });
+        }
+
+        setTimeout(() => {
+            setError({ ...error, isVinNumberExist: '' });
+        }, 5000);
     };
 
     const onEditVehicleSubmit = async (vehicleValues) => {
-        const { id, ...data } = vehicleValues;
+        try {
+            const { id, ...data } = vehicleValues;
+            const result = await vehicleService.editVehicle(id, data);
 
-        const result = await vehicleService.editVehicle(id, data);
-        setVehicles(state => state.map(x => x._id === id ? result : x))
+            if (result.message) {
+                setError({ ...error, isVinNumberExist: result.message });
+            }
 
-        navigate('/catalog/vehicles');
+            setVehicles(state => state.map(x => x._id === id ? result : x))
+            navigate('/catalog/vehicles');
+        } catch (err) {
+            setError({ ...error, isVinNumberExist: err?.message });
+        }
+
+        setTimeout(() => {
+            setError({ ...error, isVinNumberExist: '' });
+        }, 5000);
     };
 
     const onDeleteVehicleSubmit = async (vehicleId) => {
-        const newVehicle = await vehicleService.deleteVehicle(vehicleId);
-        console.log(newVehicle);
+        await vehicleService.deleteVehicle(vehicleId);
         setVehicles(state => state.filter(vehicle => vehicle._id !== vehicleId));
     };
 
