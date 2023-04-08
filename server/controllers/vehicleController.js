@@ -99,7 +99,7 @@ vehicleController.patch('/:id',
 
 vehicleController.delete('/:id',
     preloader('vehicle'),
-    isOwner(),
+    isOwner('vehicle'),
     async (req, res) => {
         try {
             await deleteVehicleById(req.params.id);
