@@ -39,10 +39,14 @@ export const VehicleProvider = ({
             return vehicle;
 
         } catch (err) {
-            console.log(err);
-            console.log('There is a problem', err);
+            if (err.messageEn == "Item doesn't exist") {
+                console.log(err);
+                navigate('/404');
+            } else if (err.messageEn == "Access denied! You don't have rights to access this page!") {
+                console.log(err);
+                navigate('/403');
+            }
         }
-
     };
 
     const onCreateVehicleSubmit = async (data) => {

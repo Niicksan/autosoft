@@ -7,6 +7,10 @@ import { Box, Toolbar } from '@mui/material';
 import { AuthProvider } from './contexts/AuthContext';
 import { VehicleProvider } from './contexts/vehicleContext';
 
+import { AuthGuard } from './guards/AuthGuard';
+// import { VehicleOwnerGuard } from './guards/VehicleOwnerGuard';
+import { HasUserGuard } from './guards/HasUserGuard';
+
 import { NavigationBar } from './components/NavigationBar/NavigationBar';
 import { Home } from './components/Home/Home';
 import { Catalog } from './components/Catalog/Catalog';
@@ -38,14 +42,20 @@ function App() {
                         <Toolbar />
                         <Routes>
                             <Route path='/' element={<Home />} />
-                            <Route path='/catalog/vehicles' element={<Catalog />} />
-                            <Route path='/catalog/vehicles/:id' element={<VehicleDetails />} />
-                            <Route path='/catalog/vehicles/edit/:id' element={<EditVehicle />} />
-                            <Route path='/vehicle/create' element={<CreateVehicle />} />
-                            <Route path='/user/my-profile' element={<MyProfile />} />
-                            <Route path='/auth/login' element={<Login />} />
-                            <Route path='/auth/register' element={<Register />} />
-                            <Route path='/auth/logout' element={<Logout />} />
+                            <Route element={<AuthGuard />}>
+                                <Route path='/catalog/vehicles' element={<Catalog />} />
+                                {/* <Route element={<VehicleOwnerGuard />}> */}
+                                <Route path='/catalog/vehicles/:id' element={<VehicleDetails />} />
+                                <Route path='/catalog/vehicles/edit/:id' element={<EditVehicle />} />
+                                {/* </Route> */}
+                                <Route path='/vehicle/create' element={<CreateVehicle />} />
+                                <Route path='/user/my-profile' element={<MyProfile />} />
+                                <Route path='/auth/logout' element={<Logout />} />
+                            </Route>
+                            <Route element={<HasUserGuard />}>
+                                <Route path='/auth/login' element={<Login />} />
+                                <Route path='/auth/register' element={<Register />} />
+                            </Route>
                             <Route path='/about' element={<About />} />
                             <Route path='/contacts' element={<Contacts />} />
                             <Route path="/403" element={<Forbidden />} />

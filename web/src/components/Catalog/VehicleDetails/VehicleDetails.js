@@ -25,9 +25,9 @@ export const VehicleDetails = () => {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
             <Typography gutterBottom variant="h3" component="div" sx={{ color: '#550A21' }}>
-                {vehicle.brand} {vehicle.model} {vehicle.engine}
+                {vehicle?.brand} {vehicle?.model} {vehicle?.engine}
             </Typography>
-            <VehicleItem key={vehicle._id} {...vehicle} createdAtFormatted={createdAtFormatted} isDetails={true} />
+            <VehicleItem key={vehicle?._id} {...vehicle} createdAtFormatted={createdAtFormatted} isDetails={true} />
         </Box>
     );
 };

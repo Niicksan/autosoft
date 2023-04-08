@@ -80,7 +80,7 @@ export const CreateVehicle = () => {
                         {error.isVinNumberExist && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>{error.isVinNumberExist}</Typography>}
 
                         <TextField
-                            error={!error.brand} s
+                            error={!error.brand}
                             margin="normal"
                             required
                             fullWidth

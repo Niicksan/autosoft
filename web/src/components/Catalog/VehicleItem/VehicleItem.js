@@ -12,7 +12,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { DeleteVehicleModal } from './DeleteVehicleModal/DeleteVehicleModal';
 
-
 export const VehicleItem = ({
     _id,
     vinNumber,
@@ -41,7 +40,7 @@ export const VehicleItem = ({
         <>
             {open && (<DeleteVehicleModal open={open} vehicleTitle={vehicleTitle} handleClickOpen={handleClickOpen} handleClose={handleClose} id={_id} />)}
             <Card className='card' sx={{ m: 4 }}>
-                <CardMedia component={Link} to={`/catalog/vehicles/${_id}`}
+                <CardMedia to={`/catalog/vehicles/${_id}`}
                     sx={{ maxWidth: '30%', flex: 1, objectFit: 'cover' }}
                     className='image'
                     image={imageUrl}
