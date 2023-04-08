@@ -1,11 +1,27 @@
 const serviceController = require('express').Router();
 
 const { check, validationResult } = require('express-validator');
-const { createService, updateService, deleteServiceById } = require('../services/repairService');
+const { createService, updateService, deleteServiceById, getAllServiceByVehicleId } = require('../services/repairService');
+const { getVehicleById } = require('../services/vehicleService');
 const { parseError } = require('../utils/errorParser');
 const { hasUser, isOwner } = require('../middlewares/guards');
 const preloader = require('../middlewares/preloader');
 
+
+serviceController.post('/catalog',
+    async (req, res) => {
+        try {
+            const id = req.body.id;
+            const services = await getAllServiceByVehicleId(id);
+
+            res.json(services);
+        } catch (error) {
+            const message = parseError(error);
+            console.error(message);
+            res.status(400).json({ message });
+        }
+    }
+);
 
 serviceController.get('/:id',
     preloader('service'),

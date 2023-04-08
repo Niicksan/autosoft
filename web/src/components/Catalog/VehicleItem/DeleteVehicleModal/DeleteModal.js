@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { useVehicleContext } from "../../../../contexts/vehicleContext";
 
-export const DeleteVehicleModal = ({
+export const DeleteModal = ({
     id,
     open,
     vehicleTitle,

@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import { DeleteVehicleModal } from './DeleteVehicleModal/DeleteVehicleModal';
+import { DeleteModal } from './DeleteVehicleModal/DeleteModal';
 
 export const VehicleItem = ({
     _id,
@@ -38,7 +38,7 @@ export const VehicleItem = ({
 
     return (
         <>
-            {open && (<DeleteVehicleModal open={open} vehicleTitle={vehicleTitle} handleClickOpen={handleClickOpen} handleClose={handleClose} id={_id} />)}
+            {open && (<DeleteModal open={open} vehicleTitle={vehicleTitle} handleClickOpen={handleClickOpen} handleClose={handleClose} id={_id} />)}
             <Card className='card' sx={{ m: 4 }}>
                 <CardMedia to={`/catalog/vehicles/${_id}`}
                     sx={{ maxWidth: '30%', flex: 1, objectFit: 'cover' }}
@@ -102,7 +102,7 @@ export const VehicleItem = ({
                         {isDetails && (
                             <>
                                 <Button component={Link} to={'/catalog/vehicles/'} size="small" variant="outlined" startIcon={<ArrowBackIcon />} sx={{ marginRight: '10px' }}>Назад</Button>
-                                <Button size="small" variant="outlined" startIcon={<AddIcon />} color="success">Добави към сервизна история</Button>
+                                {/* <Button size="small" variant="outlined" startIcon={<AddIcon />} color="success">Добави към сервизна история</Button> */}
                             </>
                         )}
                     </CardActions>

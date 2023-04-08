@@ -2,6 +2,7 @@ const vehicleController = require('express').Router();
 
 const { check, validationResult } = require('express-validator');
 const { createVehicle, deleteVehicleById, updateVehicle, getVehicleById, getAllVehiclesCreatedByUser } = require('../services/vehicleService');
+const { getAllServiceByVehicleId } = require('../services/repairService');
 const { parseError } = require('../utils/errorParser');
 const { hasUser, isOwner } = require('../middlewares/guards');
 const preloader = require('../middlewares/preloader');
@@ -28,6 +29,12 @@ vehicleController.get('/:id',
     isOwner('vehicle'),
     async (req, res) => {
         const vehicle = global.vehicle;
+        // const services = await getAllServiceByVehicleId(vehicle._id);
+
+        // services.map(x => {
+        //     vehicle.doneServices.push(x);
+        // });
+
         res.json(vehicle);
     }
 );

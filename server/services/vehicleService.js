@@ -2,7 +2,7 @@ const Vehicle = require("../models/Vehicle");
 
 
 async function getAllVehiclesCreatedByUser(userId) {
-    return Vehicle.find({ ownerId: userId }, { updatedAt: 0, __v: 0 }).sort({ createdAt: -1 });
+    return Vehicle.find({ ownerId: userId }, { doneServices: 0, updatedAt: 0, __v: 0 }).sort({ createdAt: -1 });
 }
 
 async function getVehicleById(id) {
