@@ -17,10 +17,10 @@ export const VehicleOwnerGuard = ({ children }) => {
                 setVehicle(result);
             })
     }, [id]);
+
     if (vehicle && vehicle._ownerId !== userId) {
         return <Navigate to={`/403`} replace />
     }
-
 
     return children ? children : <Outlet />
 };
