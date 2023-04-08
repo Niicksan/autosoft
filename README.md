@@ -37,7 +37,7 @@ Run
 ## Download all dependencies while running this command
 Navigate to `/server` folder and run `npm install` to install all dependencies
 
-## tart server
+## Start server
 Inside `/server` run `npm start` to start the API service on port 3030
 
 ## REST-API Endpoint
@@ -48,8 +48,8 @@ Base Url: https://localhost:3030/api
 |     POST    | Signing up       | /auth/register    |       No       |
 |     POST    | Signing in       | /auth/login       |       No       |
 |     POST    | Logging out      | /auth/logout      |       Yes      |
-|     GET     | Your vehicle     | /vehicle/catalog  |       Yes      |
-|     GEt     | Get pet          | /vehicle/:id      |       Yes      |
+|     GET     | Your vehicles    | /vehicle/catalog  |       Yes      |
+|     GET     | Get vehicle      | /vehicle/:id      |       Yes      |
 |     POST    | Create vehicle   | /vehicle/create   |       Yes      |
 |     PATCH   | Update vehicle   | /vehicle/:id      |       Yes      |
 |    DELETE   | Delete vehicle   | /vehicle/:id      |       Yes      |
