@@ -40,6 +40,10 @@ export const AuthProvider = ({
             console.log(error.invalidLoginData);
             console.log('Please check your email or password', err);
         }
+
+        setTimeout(() => {
+            setError({ ...error, invalidLoginData: '' });
+        }, 5000);
     }
 
     const onRegisterSubmit = async (registerFormData) => {
@@ -56,6 +60,10 @@ export const AuthProvider = ({
             setError({ ...error, isUserExist: err?.message });
             console.log('There is a problem', err);
         }
+
+        setTimeout(() => {
+            setError({ ...error, isUserExist: '' });
+        }, 5000);
     }
 
     const onLogout = async () => {
