@@ -17,9 +17,6 @@ Run
 
 ## Routes
 
-
-# REST-API - Server
-
 |   Description    |            Route           | Login Required |
 | :--------------  | :------------------------- | :------------: |
 | Register         | /auth/register             |       No       |
@@ -34,6 +31,8 @@ Run
 | My Profile       | /user/profile              |       Yes      |
 | About us         | /about                     |       No       |
 | Contact us       | /contacts                  |       No       |
+
+# REST-API - Server
 
 ## Download all dependencies while running this command
 Navigate to `/server` folder and run `npm install` to install all dependencies
