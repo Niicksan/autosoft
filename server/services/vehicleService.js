@@ -10,10 +10,25 @@ async function getVehicleById(id) {
 }
 
 async function createVehicle(vehicle) {
+    const { vinNumber } = vehicle;
+    const existing = await Vehicle.findOne({ vinNumber }).collation({ locale: 'en', strength: 2 });
+
+    if (existing) {
+        throw new Error('Автомобил с такъв Вин номер съществува');
+    }
+
     return Vehicle.create(vehicle);
 }
 
 async function updateVehicle(vehicle, data) {
+    const { vinNumber } = data;
+
+    const existing = await Vehicle.findOne({ vinNumber }).collation({ locale: 'en', strength: 2 });
+
+    if (existing && data.vinNumber !== vehicle.vinNumber) {
+        throw new Error('Автомобил с такъв Вин номер съществува');
+    }
+
     vehicle.vinNumber = data.vinNumber;
     vehicle.brand = data.brand;
     vehicle.model = data.model;
