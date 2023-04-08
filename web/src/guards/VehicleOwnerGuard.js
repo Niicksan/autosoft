@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Outlet, Navigate } from 'react-router-dom';
 
 import { useAuthContext } from "../contexts/AuthContext";
@@ -11,7 +11,7 @@ export const VehicleOwnerGuard = ({ children }) => {
     const { getVehicleById } = useVehicleContext();
     const { userId } = useAuthContext();
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         getVehicleById(id)
             .then(result => {
                 setVehicle(result);

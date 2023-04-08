@@ -35,7 +35,7 @@ export const EditVehicle = () => {
     } = useVehicleValidation();
 
     const { id } = useParams();
-    const [vehicle, setVehicle] = useState({});
+    const [setVehicle] = useState({});
     const { getVehicleById } = useVehicleContext();
 
     const { values, setValues, changeHandler, onSubmit } = useForm({

@@ -39,10 +39,10 @@ export const VehicleProvider = ({
             return vehicle;
 
         } catch (err) {
-            if (err.messageEn == "Item doesn't exist") {
+            if (err.messageEn === "Item doesn't exist") {
                 console.log(err);
                 navigate('/404');
-            } else if (err.messageEn == "Access denied! You don't have rights to access this page!") {
+            } else if (err.messageEn === "Access denied! You don't have rights to access this page!") {
                 console.log(err);
                 navigate('/403');
             }
@@ -62,7 +62,7 @@ export const VehicleProvider = ({
         } catch (err) {
             setError({ ...error, isVinNumberExist: err?.message });
 
-            if (err.messageEn == "Access denied! You don't have rights to access this page!") {
+            if (err.messageEn === "Access denied! You don't have rights to access this page!") {
                 console.log(err);
                 navigate('/403');
             }
@@ -87,7 +87,7 @@ export const VehicleProvider = ({
         } catch (err) {
             setError({ ...error, isVinNumberExist: err?.message });
 
-            if (err.messageEn == "Access denied! You don't have rights to access this page!") {
+            if (err.messageEn === "Access denied! You don't have rights to access this page!") {
                 console.log(err);
                 navigate('/403');
             }
@@ -103,7 +103,7 @@ export const VehicleProvider = ({
             await vehicleService.deleteVehicle(vehicleId);
             setVehicles(state => state.filter(vehicle => vehicle._id !== vehicleId));
         } catch (err) {
-            if (err.messageEn == "Access denied! You don't have rights to access this page!") {
+            if (err.messageEn === "Access denied! You don't have rights to access this page!") {
                 console.log(err);
                 navigate('/403');
             }
