@@ -119,9 +119,6 @@ export const useVehicleValidation = () => {
     };
 
     const checkIsVehicleFormValid = () => {
-        console.log(error);
-        console.log(form);
-        console.log(isVehicleFormValid);
         (
             (error.vinNumber && form.vinNumber !== '') &&
             (error.brand && form.brand !== '') &&
@@ -131,9 +128,6 @@ export const useVehicleValidation = () => {
             (error.yearOfManufacture && form.yearOfManufacture !== '') &&
             (error.imageUrl && form.imageUrl !== '')
         ) ? setIsVehicleFormValid(true) : setIsVehicleFormValid(false);
-
-        console.log(form.fuel);
-        console.log(form.yearOfManufacture);
     };
 
     return {
