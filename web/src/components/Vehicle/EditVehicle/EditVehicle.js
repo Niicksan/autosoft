@@ -35,7 +35,6 @@ export const EditVehicle = () => {
     } = useVehicleValidation();
 
     const { id } = useParams();
-    const [setVehicle] = useState({});
     const { getVehicleById } = useVehicleContext();
 
     const { values, setValues, changeHandler, onSubmit } = useForm({
@@ -52,7 +51,6 @@ export const EditVehicle = () => {
     useEffect(() => {
         getVehicleById(id)
             .then(result => {
-                setVehicle(result);
                 setValues({
                     ...values,
                     id: result._id,
@@ -183,7 +181,6 @@ export const EditVehicle = () => {
                                 margin="normal"
                                 required
                                 id="fuel"
-                                select="Гориво"
                                 label="Гориво"
                                 name="fuel"
                                 autoComplete="fuel"
@@ -207,7 +204,6 @@ export const EditVehicle = () => {
                                 margin="normal"
                                 required
                                 id="yearOfManufacture"
-                                select="Година"
                                 label="Година"
                                 name="yearOfManufacture"
                                 autoComplete="yearOfManufacture"
