@@ -12,9 +12,7 @@ export const MyProfile = () => {
     const [profileData, setProfileData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const userService = userServiceFactory();
-    console.log(imageApi);
-    console.log(process.env.apiUrl);
-    console.log(process.env.imageAp);
+
     useEffect(() => {
         setIsLoading(true);
         userService.getUserInfo()
