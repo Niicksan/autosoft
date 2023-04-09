@@ -11,7 +11,10 @@ export const MyProfile = () => {
 
     const { profileData, setProfileData } = useAuthContext();
     const userService = userServiceFactory();
-
+    process.env.apiUrl
+    console.log(imageApi);
+    console.log(process.env.apiUrl);
+    console.log(process.env.imageAp);
     useEffect(() => {
         if (!profileData?._id) {
             userService.getUserInfo()
