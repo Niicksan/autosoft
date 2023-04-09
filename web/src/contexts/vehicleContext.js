@@ -57,7 +57,7 @@ export const VehicleProvider = ({
                 setError({ ...error, isVinNumberExist: newVehicle.message });
             }
 
-            setVehicles(state => [...state, newVehicle]);
+            setVehicles(state => [newVehicle, ...state]);
             navigate('/catalog/vehicles');
         } catch (err) {
             setError({ ...error, isVinNumberExist: err?.message });
