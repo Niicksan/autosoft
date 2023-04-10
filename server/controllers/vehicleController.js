@@ -29,11 +29,12 @@ vehicleController.get('/:id',
     isOwner('vehicle'),
     async (req, res) => {
         const vehicle = global.vehicle;
-        // const services = await getAllServiceByVehicleId(vehicle._id);
 
-        // services.map(x => {
-        //     vehicle.doneServices.push(x);
-        // });
+        const services = await getAllServiceByVehicleId(vehicle._id);
+
+        services.map(x => {
+            vehicle.doneServices.push(x);
+        });
 
         res.json(vehicle);
     }

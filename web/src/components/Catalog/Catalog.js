@@ -12,7 +12,7 @@ export const Catalog = () => {
     const { vehicles } = useVehicleContext();
 
     return (
-        <section id="catalog-page">
+        <section style={{ minHeight: '60vh' }} id="catalog-page">
             <h1 style={{ color: '#550A21' }}>Каталог с aвтомобили</h1>
 
             <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
