@@ -6,14 +6,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export const CreateServiceModal = ({
+export const EditServiceModal = ({
   open,
   handleClose
 }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Добави обслужване</DialogTitle>
+        <DialogTitle>Редактиране</DialogTitle>
         <DialogContent>
           <DialogContentText>
             To subscribe to this website, please enter your email address here. We
@@ -31,7 +31,7 @@ export const CreateServiceModal = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Добави</Button>
+          <Button onClick={handleClose}>Редактирай</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -12,6 +12,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { useVehicleContext } from '../../../contexts/vehicleContext';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
+import { CreateServiceModal } from '../VehicleDetails/CreateServiceModal/CreateServiceModal';
 
 export const VehicleItem = ({
     _id,
@@ -23,10 +24,10 @@ export const VehicleItem = ({
     yearOfManufacture,
     imageUrl,
     createdAtFormatted,
-    isDetails,
-    handleClickOpenCreateModal
+    isDetails
 }) => {
     const [open, setOpen] = useState(false);
+    const [openCreateModal, setOpenCreateModal] = useState(false);
 
     const handleClickOpenDeleteModal = () => {
         setOpen(true);
@@ -35,6 +36,15 @@ export const VehicleItem = ({
     const handleCloseDeleteModal = () => {
         setOpen(false);
     };
+
+    const handleClickOpenCreateModal = () => {
+        setOpenCreateModal(true);
+    };
+
+    const handleCloseCreateModal = () => {
+        setOpenCreateModal(false);
+    };
+
     const { onDeleteVehicleSubmit } = useVehicleContext();
 
     const vehicleTitle = `${brand} ${model} ${engine}`;
@@ -43,6 +53,8 @@ export const VehicleItem = ({
     return (
         <>
             {open && (<DeleteModal open={open} title={vehicleTitle} message={message} onDeleteVehicleSubmit={onDeleteVehicleSubmit} handleClose={handleCloseDeleteModal} id={_id} />)}
+            {openCreateModal && (<CreateServiceModal open={openCreateModal} handleClose={handleCloseCreateModal} />)}
+
             <Card className='card' sx={{ m: 2, width: '90%', maxWidth: '1920px' }}>
                 <CardMedia component='img' to={`/catalog/vehicles/${_id}`}
                     sx={{ maxWidth: '30%', flex: 1, objectFit: 'cover' }}
@@ -106,7 +118,7 @@ export const VehicleItem = ({
                         {isDetails && (
                             <>
                                 <Button component={Link} to={'/catalog/vehicles'} size="small" variant="outlined" startIcon={<ArrowBackIcon />} sx={{ marginRight: '10px' }}>Назад</Button>
-                                <Button size="small" variant="outlined" startIcon={<AddIcon />} color="success" onClick={handleClickOpenCreateModal}>Добави към сервизна история</Button>
+                                <Button size="small" variant="outlined" startIcon={<AddIcon />} color="success" onClick={handleClickOpenCreateModal}>Добави сервизна история</Button>
                             </>
                         )}
                     </CardActions>

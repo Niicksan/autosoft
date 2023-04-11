@@ -6,13 +6,11 @@ import { Box, Typography } from "@mui/material";
 import { Loader } from "../../Loader/Loader";
 import { VehicleItem } from "../VehicleItem/VehicleItem";
 import { ServiceCatalog } from "./ServiceCatalog/ServiceCatalog";
-import { CreateServiceModal } from './CreateServiceModal/CreateServiceModal'
 
 import { useVehicleContext } from "../../../contexts/vehicleContext";
 
 export const VehicleDetails = () => {
     const { id } = useParams();
-    const [open, setOpen] = useState(false);
     const [vehicle, setVehicle] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const { getVehicleById } = useVehicleContext();
@@ -26,14 +24,6 @@ export const VehicleDetails = () => {
             })
     }, [id]);
 
-    const handleClickOpenCreateModal = () => {
-        setOpen(true);
-    };
-
-    const handleCloseCreateModal = () => {
-        setOpen(false);
-    };
-
     const date = new Date(vehicle?.createdAt);
     const createdAtFormatted = date.toLocaleDateString('Bg-bg', { year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -45,9 +35,7 @@ export const VehicleDetails = () => {
                     {vehicle?.brand} {vehicle?.model} {vehicle?.engine}
                 </Typography>
 
-                <VehicleItem key={vehicle?._id} {...vehicle} createdAtFormatted={createdAtFormatted} handleClickOpenCreateModal={handleClickOpenCreateModal} isDetails={true} />
-
-                {open && (<CreateServiceModal open={open} handleClose={handleCloseCreateModal} />)}
+                <VehicleItem key={vehicle?._id} {...vehicle} createdAtFormatted={createdAtFormatted} isDetails={true} />
 
                 <ServiceCatalog services={vehicle?.doneServices} />
             </Box>)
