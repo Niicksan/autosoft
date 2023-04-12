@@ -8,8 +8,8 @@ const { hasUser, isOwner } = require('../middlewares/guards');
 const preloader = require('../middlewares/preloader');
 
 
-vehicleController.get('/catalog',
-    hasUser('vehicle'),
+vehicleController.get('/',
+    hasUser(),
     async (req, res) => {
         try {
             const userId = req.user._id;
@@ -24,16 +24,16 @@ vehicleController.get('/catalog',
     }
 );
 
-vehicleController.get('/:id',
-    preloader('vehicle'),
-    isOwner('vehicle'),
+vehicleController.get('/:vehicleId/services',
+    preloader(),
+    isOwner(),
     async (req, res) => {
-        const vehicle = global.vehicle;
-        // const services = await getAllServiceByVehicleId(vehicle._id);
+        const vehicle = res.locals.vehicle;
+        const services = await getAllServiceByVehicleId(vehicle._id);
 
-        // services.map(x => {
-        //     vehicle.doneServices.push(x);
-        // });
+        services.map(x => {
+            vehicle.doneServices.push(x);
+        });
 
         res.json(vehicle);
     }

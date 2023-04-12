@@ -1,24 +1,13 @@
 const { getVehicleById } = require("../services/vehicleService");
-const { getServiceById } = require("../services/repairService");
 const { parseError } = require("../utils/errorParser");
 
 
-module.exports = (type) => async (req, res, next) => {
+module.exports = () => async (req, res, next) => {
     try {
-        if (type == 'vehicle') {
-            global.vehicle = await getVehicleById(req.params.id);
+        res.locals.vehicle = await getVehicleById(req.params.vehicleId);
 
-            if (global.vehicle === null) {
-                throw new Error("Item doesn't exist");
-            }
-        }
-
-        if (type == 'service') {
-            res.locals.service = await getServiceById(req.params.id);
-
-            if (res.locals.service === null) {
-                throw new Error("Item doesn't exist");
-            }
+        if (global.vehicle === null) {
+            throw new Error("Item doesn't exist");
         }
     } catch (error) {
         const message = parseError(error);
