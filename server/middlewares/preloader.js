@@ -6,7 +6,15 @@ module.exports = () => async (req, res, next) => {
     try {
         res.locals.vehicle = await getVehicleById(req.params.vehicleId);
 
-        if (global.vehicle === null) {
+        if (req.params.serviceId) {
+            res.locals.service = await getVehicleById(req.params.serviceId);
+
+            if (res.locals.service === null) {
+                throw new Error("Item doesn't exist");
+            }
+        }
+
+        if (res.locals.vehicle === null) {
             throw new Error("Item doesn't exist");
         }
     } catch (error) {

@@ -5,7 +5,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { Box, Toolbar } from '@mui/material';
 
 import { AuthProvider } from './contexts/AuthContext';
-import { VehicleProvider } from './contexts/vehicleContext';
+import { VehicleProvider } from './contexts/VehicleContext';
 import { ServiceProvider } from './contexts/ServiceContext';
 
 import { AuthGuard } from './guards/AuthGuard';

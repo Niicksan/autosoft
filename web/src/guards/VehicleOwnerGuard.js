@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Outlet, Navigate } from 'react-router-dom';
 
 import { useAuthContext } from "../contexts/AuthContext";
-import { useVehicleContext } from '../contexts/vehicleContext';
+import { useVehicleContext } from '../contexts/VehicleContext';
 
 
 export const VehicleOwnerGuard = ({ children }) => {

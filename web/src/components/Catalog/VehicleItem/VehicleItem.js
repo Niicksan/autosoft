@@ -10,7 +10,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import { DeleteModal } from './DeleteVehicleModal/DeleteModal';
+import { useVehicleContext } from '../../../contexts/VehicleContext';
+import { DeleteModal } from '../DeleteModal/DeleteModal';
+import { CreateServiceModal } from '../VehicleDetails/CreateServiceModal/CreateServiceModal';
 
 export const VehicleItem = ({
     _id,
@@ -25,22 +27,36 @@ export const VehicleItem = ({
     isDetails
 }) => {
     const [open, setOpen] = useState(false);
+    const [openCreateModal, setOpenCreateModal] = useState(false);
 
-    const handleClickOpen = () => {
+    const handleClickOpenDeleteModal = () => {
         setOpen(true);
     };
 
-    const handleClose = () => {
+    const handleCloseDeleteModal = () => {
         setOpen(false);
     };
 
+    const handleClickOpenCreateModal = () => {
+        setOpenCreateModal(true);
+    };
+
+    const handleCloseCreateModal = () => {
+        setOpenCreateModal(false);
+    };
+
+    const { onDeleteVehicleSubmit } = useVehicleContext();
+
     const vehicleTitle = `${brand} ${model} ${engine}`;
+    const message = 'Сигурни ли сте, че искате да изтриете този автомобил?';
 
     return (
         <>
-            {open && (<DeleteModal open={open} vehicleTitle={vehicleTitle} handleClickOpen={handleClickOpen} handleClose={handleClose} id={_id} />)}
-            <Card className='card' sx={{ m: 4 }}>
-                <CardMedia to={`/catalog/vehicles/${_id}`}
+            {open && (<DeleteModal open={open} title={vehicleTitle} message={message} onDeleteVehicleSubmit={onDeleteVehicleSubmit} handleClose={handleCloseDeleteModal} id={_id} />)}
+            {openCreateModal && (<CreateServiceModal open={openCreateModal} handleClose={handleCloseCreateModal} />)}
+
+            <Card className='card' sx={{ m: 2, width: '90%', maxWidth: '1920px' }}>
+                <CardMedia component='img' to={`/catalog/vehicles/${_id}`}
                     sx={{ maxWidth: '30%', flex: 1, objectFit: 'cover' }}
                     className='image'
                     image={imageUrl}
@@ -90,19 +106,19 @@ export const VehicleItem = ({
                             </Box>
                         )}
                     </CardContent>
-                    <CardActions className='action' sx={{ justifyContent: 'flex-end' }}>
+                    <CardActions className='action' sx={{ m: 1, justifyContent: 'flex-end' }}>
                         {!isDetails && (
                             <>
                                 <Button component={Link} to={`/catalog/vehicles/${_id}`} variant="outlined" size="small" >Детайли</Button>
                                 <Button component={Link} to={`/catalog/vehicles/edit/${_id}`} size="small" variant="outlined" sx={{ marginRight: '10px' }} startIcon={<EditIcon />} >Редактиеай</Button>
-                                <Button size="small" variant="contained" startIcon={<DeleteIcon />} color="error" onClick={handleClickOpen}>Изтрий</Button>
+                                <Button size="small" variant="contained" startIcon={<DeleteIcon />} color="error" onClick={handleClickOpenDeleteModal}>Изтрий</Button>
                             </>
                         )}
 
                         {isDetails && (
                             <>
-                                <Button component={Link} to={'/catalog/vehicles/'} size="small" variant="outlined" startIcon={<ArrowBackIcon />} sx={{ marginRight: '10px' }}>Назад</Button>
-                                {/* <Button size="small" variant="outlined" startIcon={<AddIcon />} color="success">Добави към сервизна история</Button> */}
+                                <Button component={Link} to={'/catalog/vehicles'} size="small" variant="outlined" startIcon={<ArrowBackIcon />} sx={{ marginRight: '10px' }}>Назад</Button>
+                                <Button size="small" variant="outlined" startIcon={<AddIcon />} color="success" onClick={handleClickOpenCreateModal}>Добави сервизна история</Button>
                             </>
                         )}
                     </CardActions>

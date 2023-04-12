@@ -2,13 +2,13 @@ import '../../../VehicleItem/VehicleItem.scss';
 
 import { useState } from 'react';
 
-import { Link } from 'react-router-dom';
 import { Card, Box, CardContent, Typography, CardActions, Button } from '@mui/material';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { DeleteModal } from '../../../VehicleItem/DeleteVehicleModal/DeleteModal';
+import { DeleteModal } from '../../../DeleteModal/DeleteModal';
+import { EditServiceModal } from '../../EditServiceModal/EditServiceModal';
 
 export const ServiceItem = ({
     _id,
@@ -17,25 +17,38 @@ export const ServiceItem = ({
     description,
     createdAt
 }) => {
-    const [open, setOpen] = useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleClickOpenDeleteModal = () => {
+        setOpenDeleteModal(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleCloseDeleteModal = () => {
+        setOpenDeleteModal(false);
     };
+
+    const handleClickOpenEditModal = () => {
+        setOpenEditModal(true);
+    };
+
+    const handleCloseEditModal = () => {
+        setOpenEditModal(false);
+    };
+
     const date = new Date(createdAt);
     const createdAtFormatted = date.toLocaleDateString('Bg-bg', { year: 'numeric', month: 'long', day: 'numeric' });
+    const message = 'Сигурни ли сте, че искате да изтриете това обслужване?';
 
     return (
         <>
-            {/* {open && (<DeleteModal open={open} vehicleTitle={vehicleTitle} handleClickOpen={handleClickOpen} handleClose={handleClose} id={_id} />)} */}
-            <Card className='card' sx={{ m: 4 }}>
-                <Box className='card-content-holder' >
+            {openDeleteModal && (<DeleteModal open={openDeleteModal} title={title} message={message} handleClickOpen={handleClickOpenDeleteModal} handleClose={handleCloseDeleteModal} id={_id} />)}
+            {openEditModal && (<EditServiceModal open={openEditModal} handleClose={handleCloseEditModal} />)}
+
+            <Card className='card' sx={{ m: 2, width: '90%', maxWidth: '1920px' }}>
+                <Box className='card-content-holder' style={{ width: '99%' }}>
                     <CardContent >
-                        <Typography gutterBottom variant="h5" component="div">
+                        <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'left', marginBottom: '0.5em' }} >
                             {title}
                         </Typography>
 
@@ -58,9 +71,9 @@ export const ServiceItem = ({
                         </Box>
 
                     </CardContent>
-                    <CardActions className='action' sx={{ justifyContent: 'flex-end' }}>
-                        <Button component={Link} to={`/catalog/vehicles/edit/${_id}`} size="small" variant="outlined" sx={{ marginRight: '10px' }} startIcon={<EditIcon />} >Редактиеай</Button>
-                        <Button size="small" variant="contained" startIcon={<DeleteIcon />} color="error" onClick={handleClickOpen}>Изтрий</Button>
+                    <CardActions className='action' sx={{ m: 1, justifyContent: 'flex-end' }}>
+                        <Button size="small" variant="outlined" sx={{ marginRight: '10px' }} onClick={handleClickOpenEditModal} startIcon={<EditIcon />} >Редактиеай</Button>
+                        <Button size="small" variant="contained" startIcon={<DeleteIcon />} color="error" onClick={handleClickOpenDeleteModal}>Изтрий</Button>
                     </CardActions>
                 </Box>
             </Card >

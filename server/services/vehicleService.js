@@ -6,7 +6,7 @@ async function getAllVehiclesCreatedByUser(userId) {
 }
 
 async function getVehicleById(id) {
-    return Vehicle.findById(id);
+    return await Vehicle.findById(id).populate('doneServices', { updatedAt: 0, __v: 0 });
 }
 
 async function createVehicle(vehicle) {

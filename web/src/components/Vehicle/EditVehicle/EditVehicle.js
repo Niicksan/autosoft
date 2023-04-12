@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useForm } from '../../../hooks/useForm';
 import { useVehicleValidation } from '../../../hooks/useVehicleValidation';
-import { useVehicleContext } from '../../../contexts/vehicleContext';
+import { useVehicleContext } from '../../../contexts/VehicleContext';
 
 const theme = createTheme();
 

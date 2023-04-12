@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useVehicleContext } from "../contexts/vehicleContext";
+import { useVehicleContext } from "../contexts/VehicleContext";
 
 const fuels = [
     {

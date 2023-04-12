@@ -2,16 +2,16 @@ import { apiUrl } from '../env'
 
 import { requestFactory } from './requester';
 
-const baseUrl = `${apiUrl}/service`;
+const baseUrl = `${apiUrl}/vehicles`;
 
 export const repairsServiceFactory = (token) => {
     const request = requestFactory(token);
 
     return {
-        getAllServices: (id) => request.post(`${baseUrl}/catalog`, id),
-        // getVehicleById: (vehicleId) => request.get(`${baseUrl}/${vehicleId}`),
-        // createVehicle: (vehicleData) => request.post(`${baseUrl}/create`, vehicleData),
-        // editVehicle: (vehicleId, vehicleData) => request.patch(`${baseUrl}/${vehicleId}`, vehicleData),
-        // deleteVehicle: (vehicleId) => request.delete(`${baseUrl}/${vehicleId}`)
+        // getAllServices: (id) => request.post(`${baseUrl}/catalog`, id),
+        getServiceById: (vehicleId, serviceId) => request.get(`${baseUrl}/${vehicleId}/services/${serviceId}`),
+        createService: (vehicleId, serviceData) => request.post(`${baseUrl}/${vehicleId}/services/create`, serviceData),
+        editService: (vehicleId, serviceId, serviceData) => request.patch(`${baseUrl}/${vehicleId}/services/${serviceId}`, serviceData),
+        deleteService: (vehicleId, serviceId) => request.delete(`${baseUrl}/${vehicleId}/services/${serviceId}`)
     }
 }
