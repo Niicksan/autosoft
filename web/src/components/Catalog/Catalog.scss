@@ -3,13 +3,17 @@ $red: #550A21;
 #catalog-page {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     margin: 0 auto;
     margin-top: 2em;
 
     h1 {
         font-size: 2em;
+    }
+
+    h3.no-articles {
+        margin: 1em 0 1.5em;
     }
 
     .add {

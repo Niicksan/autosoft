@@ -1,7 +1,8 @@
 const vehicleController = require('express').Router();
 
 const { check, validationResult } = require('express-validator');
-const { createVehicle, deleteVehicleById, updateVehicle, getVehicleById, getAllVehiclesCreatedByUser } = require('../services/vehicleService');
+const { createVehicle, deleteVehicleById, updateVehicle, getAllVehiclesCreatedByUser } = require('../services/vehicleService');
+const { createService, updateService, deleteServiceById } = require('../services/repairService');
 const { getAllServiceByVehicleId } = require('../services/repairService');
 const { parseError } = require('../utils/errorParser');
 const { hasUser, isOwner } = require('../middlewares/guards');
@@ -39,14 +40,14 @@ vehicleController.get('/:vehicleId/services',
     }
 );
 
-vehicleController.post('/create',
+vehicleController.post('/',
     check('vinNumber').isLength(17).withMessage('Vin Number must be 17 characters long'),
     check('brand').isLength({ min: 2 }).withMessage('Brand name must be at least 2 characters'),
     check('model').isLength({ min: 2 }).withMessage('Model name must be at least 2 characters'),
     check('engine').isLength({ min: 2 }).withMessage('Engine must be at least 2 characters'),
     check('fuel').isLength({ min: 2 }).withMessage('Fuel must be at least 2 characters'),
     check('yearOfManufacture').isInt({ min: 1920, max: new Date().getFullYear() }).withMessage('Year is not correct'),
-    isOwner(),
+    hasUser(),
     async (req, res) => {
         try {
             const { errors } = validationResult(req);
@@ -131,10 +132,10 @@ vehicleController.get('/:vehicleId/services/:serviceId',
     }
 );
 
-vehicleController.post('/:vehicleId/services/create',
-    check('title').isLength(2).withMessage('Title must be 2 characters long'),
-    check('kilometers').isLength({ min: 2 }).withMessage('Kilometers name must be at least 2 characters'),
-    check('description').isLength({ min: 2 }).withMessage('Description must be at least 2 characters'),
+vehicleController.post('/:vehicleId/services',
+    check('title').isLength({ min: 2 }).withMessage('Title must be 2 characters long'),
+    check('kilometers').isLength({ min: 1 }).withMessage('Kilometers name must be at least 2 characters'),
+    check('description').isLength({ min: 10 }).withMessage('Description must be at least 10 characters'),
     preloader(),
     isOwner(),
     async (req, res) => {
@@ -144,7 +145,7 @@ vehicleController.post('/:vehicleId/services/create',
             if (errors.length > 0) {
                 throw errors;
             }
-            console.log("vehicle: ", global.vehicle)
+
             const service = {
                 ...req.body,
                 ownerId: req.user._id,

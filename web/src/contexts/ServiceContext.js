@@ -1,7 +1,8 @@
 import { createContext, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { repairsServiceFactory } from '../services/repairsService';
+import { vehicleServiceFactory } from '../services/vehicleService';
+import { useVehicleContext } from '../contexts/VehicleContext'
 
 export const ServiceContext = createContext();
 
@@ -9,18 +10,18 @@ export const ServiceProvider = ({
     children,
 }) => {
     const navigate = useNavigate();
-
-    const repairService = repairsServiceFactory();
+    const vehicleService = vehicleServiceFactory();
+    const { vehicle, setVehicle } = useVehicleContext();
     const [error, setError] = useState({
         title: true,
         kilometers: true,
         description: true
     });
 
-    const getAllServices = async (vehicleId) => {
+    const getServiceById = async (vehicleId, serviceId) => {
         try {
-            const service = await repairService.getAllServices(vehicleId);
-            console.log(service);
+            const service = await vehicleService.getServiceById(vehicleId, serviceId);
+
             return service;
 
         } catch (err) {
@@ -34,93 +35,60 @@ export const ServiceProvider = ({
         }
     };
 
-    // useEffect(() => {
-    //     vehicleService.getAllVehicles(userId)
-    //         .then(result => {
-    //             setVehicles(result);
-    //         })
-    // }, [userId]);
+    const onCreateServiceSubmit = async (data, vehicleId) => {
+        try {
+            const newService = await vehicleService.createService(data, vehicleId);
 
-    // const getVehicleById = async (vehicleId) => {
-    //     try {
-    //         const vehicle = await vehicleService.getVehicleById(vehicleId);
+            if (newService.message) {
+                throw new Error(newService.message);
+            }
 
-    //         return vehicle;
+            setVehicle({ ...vehicle, doneServices: [newService, ...vehicle.doneServices] });
+        } catch (err) {
+            if (err.messageEn === "Access denied! You don't have rights to access this page!") {
+                console.log(err);
+                navigate('/403');
+            }
+        }
+    };
 
-    //     } catch (err) {
-    //         if (err.messageEn === "Item doesn't exist") {
-    //             console.log(err);
-    //             navigate('/404');
-    //         } else if (err.messageEn === "Access denied! You don't have rights to access this page!") {
-    //             console.log(err);
-    //             navigate('/403');
-    //         }
-    //     }
-    // };
+    const onEditServiceSubmit = async (data, vehicleId, serviceId) => {
+        try {
+            const service = await vehicleService.editService(data, vehicleId, serviceId);
 
-    // const onCreateVehicleSubmit = async (data) => {
-    //     try {
-    //         const newVehicle = await vehicleService.createVehicle(data);
+            setVehicle({ ...vehicle, doneServices: [...vehicle.doneServices.map(s => s._id === serviceId ? service : s)] });
+        } catch (err) {
+            if (err.messageEn === "Access denied! You don't have rights to access this page!") {
+                console.log(err);
+                navigate('/403');
+            }
+        }
 
-    //         if (newVehicle.message) {
-    //             setError({ ...error, isVinNumberExist: newVehicle.message });
-    //         }
+        setTimeout(() => {
+            setError({ ...error, isVinNumberExist: '' });
+        }, 5000);
+    };
 
-    //         setVehicles(state => [...state, newVehicle]);
-    //         navigate('/catalog/vehicles');
-    //     } catch (err) {
-    //         setError({ ...error, isVinNumberExist: err?.message });
+    const onDeleteServiceSubmit = async (vehicleId, serviceId) => {
+        try {
+            await vehicleService.deleteService(vehicleId, serviceId);
 
-    //         if (err.messageEn === "Access denied! You don't have rights to access this page!") {
-    //             console.log(err);
-    //             navigate('/403');
-    //         }
-    //     }
-
-    //     setTimeout(() => {
-    //         setError({ ...error, isVinNumberExist: '' });
-    //     }, 5000);
-    // };
-
-    // const onEditVehicleSubmit = async (vehicleValues) => {
-    //     try {
-    //         const { id, ...data } = vehicleValues;
-    //         const result = await vehicleService.editVehicle(id, data);
-
-    //         if (result.message) {
-    //             setError({ ...error, isVinNumberExist: result.message });
-    //         }
-
-    //         setVehicles(state => state.map(x => x._id === id ? result : x))
-    //         navigate('/catalog/vehicles');
-    //     } catch (err) {
-    //         setError({ ...error, isVinNumberExist: err?.message });
-
-    //         if (err.messageEn === "Access denied! You don't have rights to access this page!") {
-    //             console.log(err);
-    //             navigate('/403');
-    //         }
-    //     }
-
-    //     setTimeout(() => {
-    //         setError({ ...error, isVinNumberExist: '' });
-    //     }, 5000);
-    // };
-
-    // const onDeleteVehicleSubmit = async (vehicleId) => {
-    //     try {
-    //         await vehicleService.deleteVehicle(vehicleId);
-    //         setVehicles(state => state.filter(vehicle => vehicle._id !== vehicleId));
-    //     } catch (err) {
-    //         if (err.messageEn === "Access denied! You don't have rights to access this page!") {
-    //             console.log(err);
-    //             navigate('/403');
-    //         }
-    //     }
-    // };
+            setVehicle({ ...vehicle, doneServices: [...vehicle.doneServices.filter(service => service._id !== serviceId)] });
+        } catch (err) {
+            if (err.messageEn === "Access denied! You don't have rights to access this page!") {
+                console.log(err);
+                navigate('/403');
+            }
+        }
+    };
 
     const contextValues = {
-        getAllServices
+        error,
+        setError,
+        getServiceById,
+        onCreateServiceSubmit,
+        onEditServiceSubmit,
+        onDeleteServiceSubmit
     };
 
     return (

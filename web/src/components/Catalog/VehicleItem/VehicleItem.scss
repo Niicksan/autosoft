@@ -4,6 +4,9 @@
     min-height: 20vh;
 
     .card-content-holder {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         width: 70%;
 
         .content-items-holder {
@@ -35,6 +38,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        height: auto;
+        // height: min-content;
 
         .image {
             min-width: 100%;
@@ -61,6 +66,17 @@
             .action {
                 justify-content: center;
             }
+        }
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .card {
+        max-height: 250px;
+
+        .card-content-holder-service {
+
+            min-height: 230px;
         }
     }
 }

@@ -1,7 +1,5 @@
 import '../VehicleItem/VehicleItem.scss';
 
-import { useState } from 'react';
-
 import { Link } from 'react-router-dom';
 import { Card, Box, CardContent, Typography, CardMedia, CardActions, Button } from '@mui/material';
 
@@ -13,6 +11,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useVehicleContext } from '../../../contexts/VehicleContext';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
 import { CreateServiceModal } from '../VehicleDetails/CreateServiceModal/CreateServiceModal';
+
+import { useModal } from '../../../hooks/userModal';
 
 export const VehicleItem = ({
     _id,
@@ -26,24 +26,14 @@ export const VehicleItem = ({
     createdAtFormatted,
     isDetails
 }) => {
-    const [open, setOpen] = useState(false);
-    const [openCreateModal, setOpenCreateModal] = useState(false);
-
-    const handleClickOpenDeleteModal = () => {
-        setOpen(true);
-    };
-
-    const handleCloseDeleteModal = () => {
-        setOpen(false);
-    };
-
-    const handleClickOpenCreateModal = () => {
-        setOpenCreateModal(true);
-    };
-
-    const handleCloseCreateModal = () => {
-        setOpenCreateModal(false);
-    };
+    const {
+        openCreateModal,
+        openDeleteModal,
+        handleClickOpenCreateModal,
+        handleClickCloseCreateModal,
+        handleClickOpenDeleteModal,
+        handleClickCloseDeleteModal
+    } = useModal();
 
     const { onDeleteVehicleSubmit } = useVehicleContext();
 
@@ -52,17 +42,24 @@ export const VehicleItem = ({
 
     return (
         <>
-            {open && (<DeleteModal open={open} title={vehicleTitle} message={message} onDeleteVehicleSubmit={onDeleteVehicleSubmit} handleClose={handleCloseDeleteModal} id={_id} />)}
-            {openCreateModal && (<CreateServiceModal open={openCreateModal} handleClose={handleCloseCreateModal} />)}
+            {openCreateModal && (<CreateServiceModal open={openCreateModal} handleClose={handleClickCloseCreateModal} vehicleId={_id} />)}
+            {openDeleteModal && (<DeleteModal
+                open={openDeleteModal}
+                title={vehicleTitle}
+                message={message}
+                handleClose={handleClickCloseDeleteModal}
+                onDeleteSubmit={onDeleteVehicleSubmit}
+                vehicleId={_id}
+            />)}
 
             <Card className='card' sx={{ m: 2, width: '90%', maxWidth: '1920px' }}>
                 <CardMedia component='img' to={`/catalog/vehicles/${_id}`}
                     sx={{ maxWidth: '30%', flex: 1, objectFit: 'cover' }}
                     className='image'
                     image={imageUrl}
-                    title="green iguana"
+                    title={vehicleTitle}
                 />
-                <Box className='card-content-holder' >
+                <Box className='card-content-holder'>
                     <CardContent >
                         <Typography gutterBottom variant="h5" component="div">
                             {vehicleTitle}
@@ -110,7 +107,7 @@ export const VehicleItem = ({
                         {!isDetails && (
                             <>
                                 <Button component={Link} to={`/catalog/vehicles/${_id}`} variant="outlined" size="small" >Детайли</Button>
-                                <Button component={Link} to={`/catalog/vehicles/edit/${_id}`} size="small" variant="outlined" sx={{ marginRight: '10px' }} startIcon={<EditIcon />} >Редактиеай</Button>
+                                <Button component={Link} to={`/catalog/vehicles/edit/${_id}`} size="small" variant="outlined" sx={{ marginRight: '10px' }} startIcon={<EditIcon />} >Редактирай</Button>
                                 <Button size="small" variant="contained" startIcon={<DeleteIcon />} color="error" onClick={handleClickOpenDeleteModal}>Изтрий</Button>
                             </>
                         )}
@@ -118,7 +115,7 @@ export const VehicleItem = ({
                         {isDetails && (
                             <>
                                 <Button component={Link} to={'/catalog/vehicles'} size="small" variant="outlined" startIcon={<ArrowBackIcon />} sx={{ marginRight: '10px' }}>Назад</Button>
-                                <Button size="small" variant="outlined" startIcon={<AddIcon />} color="success" onClick={handleClickOpenCreateModal}>Добави сервизна история</Button>
+                                <Button size="small" variant="outlined" startIcon={<AddIcon />} color="success" onClick={handleClickOpenCreateModal}>Добави към сервизна история</Button>
                             </>
                         )}
                     </CardActions>

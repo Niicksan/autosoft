@@ -1,6 +1,6 @@
 import '../CreateVehicle/CreateVehicle.scss';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Container, Avatar, Button, CssBaseline, TextField, Box, Typography, MenuItem } from '@mui/material';
@@ -11,7 +11,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useForm } from '../../../hooks/useForm';
 import { useVehicleValidation } from '../../../hooks/useVehicleValidation';
-import { useVehicleContext } from '../../../contexts/VehicleContext';
 
 const theme = createTheme();
 
@@ -30,15 +29,14 @@ export const EditVehicle = () => {
         handleClickFuel,
         handleClickYearOfManufacture,
         handleClickImageUrl,
+        getVehicleById,
         onEditVehicleSubmit,
         checkIsVehicleFormValid
     } = useVehicleValidation();
 
     const { id } = useParams();
-    const { getVehicleById } = useVehicleContext();
 
     const { values, setValues, changeHandler, onSubmit } = useForm({
-        id: '',
         vinNumber: '',
         brand: '',
         model: '',
@@ -46,14 +44,13 @@ export const EditVehicle = () => {
         fuel: '',
         yearOfManufacture: '',
         imageUrl: '',
-    }, onEditVehicleSubmit);
+    }, onEditVehicleSubmit, id);
 
     useEffect(() => {
         getVehicleById(id)
             .then(result => {
                 setValues({
                     ...values,
-                    id: result._id,
                     vinNumber: result.vinNumber,
                     brand: result.brand,
                     model: result.model,
@@ -64,7 +61,6 @@ export const EditVehicle = () => {
                 });
                 setVehicleForm({
                     ...values,
-                    id: result._id,
                     vinNumber: result.vinNumber,
                     brand: result.brand,
                     model: result.model,

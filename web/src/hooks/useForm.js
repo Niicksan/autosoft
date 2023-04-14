@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const useForm = (initialValues, onSubmitHandler) => {
+export const useForm = (initialValues, onSubmitHandler, vehicleId, serviceId) => {
     const [values, setValues] = useState(initialValues);
 
     const changeHandler = (e) => {
@@ -12,7 +12,7 @@ export const useForm = (initialValues, onSubmitHandler) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        onSubmitHandler(values);
+        onSubmitHandler(values, vehicleId, serviceId);
     };
 
     return {

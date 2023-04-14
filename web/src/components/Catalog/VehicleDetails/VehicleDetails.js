@@ -11,9 +11,8 @@ import { useVehicleContext } from "../../../contexts/VehicleContext";
 
 export const VehicleDetails = () => {
     const { id } = useParams();
-    const [vehicle, setVehicle] = useState({});
+    const { vehicle, setVehicle, getVehicleById } = useVehicleContext();
     const [isLoading, setIsLoading] = useState(false);
-    const { getVehicleById } = useVehicleContext();
 
     useEffect(() => {
         setIsLoading(true);

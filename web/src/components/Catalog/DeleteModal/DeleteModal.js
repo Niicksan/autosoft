@@ -3,12 +3,13 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export const DeleteModal = ({
-    id,
     open,
     title,
     message,
-    onDeleteVehicleSubmit,
-    handleClose
+    handleClose,
+    onDeleteSubmit,
+    vehicleId,
+    serviceId
 }) => {
     return (
         <div>
@@ -29,13 +30,22 @@ export const DeleteModal = ({
                     <Button variant={"outlined"} autoFocus onClick={handleClose}>
                         Назад
                     </Button>
-                    <Button variant="contained" color={'error'} startIcon={<DeleteIcon />}
-                        onClick={(e) => {
-                            handleClose();
-                            onDeleteVehicleSubmit(id);
-                        }}>
-                        Да
-                    </Button>
+                    {!serviceId && (
+                        <Button variant="contained" color={'error'} startIcon={<DeleteIcon />}
+                            onClick={() => {
+                                onDeleteSubmit(vehicleId);
+                                handleClose();
+                            }}>
+                            Да
+                        </Button>)}
+                    {serviceId && (
+                        <Button variant="contained" color={'error'} startIcon={<DeleteIcon />}
+                            onClick={() => {
+                                onDeleteSubmit(vehicleId, serviceId);
+                                handleClose();
+                            }}>
+                            Да
+                        </Button>)}
                 </DialogActions>
             </Dialog>
         </div>
