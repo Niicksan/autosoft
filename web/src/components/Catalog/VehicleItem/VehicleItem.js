@@ -12,7 +12,7 @@ import { useVehicleContext } from '../../../contexts/VehicleContext';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
 import { CreateServiceModal } from '../VehicleDetails/CreateServiceModal/CreateServiceModal';
 
-import { useModal } from '../../../hooks/userModal';
+import { useModal } from '../../../hooks/useModal';
 
 export const VehicleItem = ({
     _id,

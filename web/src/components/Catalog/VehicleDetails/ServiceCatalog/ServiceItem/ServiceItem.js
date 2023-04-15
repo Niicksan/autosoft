@@ -10,7 +10,7 @@ import { EditServiceModal } from '../../EditServiceModal/EditServiceModal';
 
 import { useServiceContext } from '../../../../../contexts/ServiceContext';
 
-import { useModal } from '../../../../../hooks/userModal';
+import { useModal } from '../../../../../hooks/useModal';
 
 export const ServiceItem = ({
     _id,

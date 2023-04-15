@@ -3,16 +3,19 @@ import { useParams } from "react-router-dom";
 
 import { Box, Typography } from "@mui/material";
 
-import { Loader } from "../../Loader/Loader";
 import { VehicleItem } from "../VehicleItem/VehicleItem";
 import { ServiceCatalog } from "./ServiceCatalog/ServiceCatalog";
+import { SnackbarModal } from "../../SnackbarModal/SnackbarModal";
+import { Loader } from "../../Loader/Loader";
 
 import { useVehicleContext } from "../../../contexts/VehicleContext";
+import { useSnackbar } from "../../../hooks/useSnackbar";
 
 export const VehicleDetails = () => {
     const { id } = useParams();
     const { vehicle, setVehicle, getVehicleById } = useVehicleContext();
     const [isLoading, setIsLoading] = useState(false);
+    const { openSnackbar, isSnackbarOpen } = useSnackbar();
 
     useEffect(() => {
         setIsLoading(true);
@@ -22,6 +25,10 @@ export const VehicleDetails = () => {
                 setIsLoading(false);
             })
     }, [id]);
+
+    useEffect(() => {
+        isSnackbarOpen();
+    }, [openSnackbar]);
 
     const date = new Date(vehicle?.createdAt);
     const createdAtFormatted = date.toLocaleDateString('Bg-bg', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -37,6 +44,7 @@ export const VehicleDetails = () => {
                 <VehicleItem key={vehicle?._id} {...vehicle} createdAtFormatted={createdAtFormatted} isDetails={true} />
 
                 <ServiceCatalog services={vehicle?.doneServices} />
+                {openSnackbar ? <SnackbarModal /> : null}
             </Box>)
             }
         </>
