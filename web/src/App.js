@@ -9,7 +9,7 @@ import { VehicleProvider } from './contexts/VehicleContext';
 import { ServiceProvider } from './contexts/ServiceContext';
 
 import { AuthGuard } from './guards/AuthGuard';
-import { VehicleOwnerGuard } from './guards/VehicleOwnerGuard';
+// import { VehicleOwnerGuard } from './guards/VehicleOwnerGuard';
 import { HasUserGuard } from './guards/HasUserGuard';
 
 import { NavigationBar } from './components/NavigationBar/NavigationBar';
@@ -46,10 +46,10 @@ function App() {
                                 <Route path='/' element={<Home />} />
                                 <Route element={<AuthGuard />}>
                                     <Route path='/catalog/vehicles' element={<Catalog />} />
-                                    <Route element={<VehicleOwnerGuard />}>
-                                        <Route path='/catalog/vehicles/:id' element={<VehicleDetails />} />
-                                        <Route path='/catalog/vehicles/edit/:id' element={<EditVehicle />} />
-                                    </Route>
+                                    {/* <Route element={<VehicleOwnerGuard />}> */}
+                                    <Route path='/catalog/vehicles/:id' element={<VehicleDetails />} />
+                                    <Route path='/catalog/vehicles/edit/:id' element={<EditVehicle />} />
+                                    {/* </Route> */}
                                     <Route path='/vehicle/create' element={<CreateVehicle />} />
                                     <Route path='/user/my-profile' element={<MyProfile />} />
                                     <Route path='/auth/logout' element={<Logout />} />
