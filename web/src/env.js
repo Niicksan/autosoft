@@ -1,5 +1,5 @@
-const apiUrl = process.env.apiUrl || 'http://localhost:3030/api'
-const imageApi = process.env.imageApi || 'http://localhost:3030/static/images'
+const apiUrl = process.env.REACT_APP_API_URL
+const imageApi = process.env.REACT_APP_IMAGE_API
 
 export {
     apiUrl,
