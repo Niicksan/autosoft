@@ -2,7 +2,7 @@ import { createContext, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { vehicleServiceFactory } from '../services/vehicleService';
-import { useVehicleContext } from '../contexts/VehicleContext'
+import { useVehicleContext } from './VehicleContext';
 
 export const ServiceContext = createContext();
 
