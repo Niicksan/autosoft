@@ -5,7 +5,8 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { Box, Toolbar } from '@mui/material';
 
 import { AuthProvider } from './contexts/AuthContext';
-import { VehicleProvider } from './contexts/vehicleContext';
+import { VehicleProvider } from './contexts/VehicleContext';
+import { ServiceProvider } from './contexts/ServiceContext';
 
 import { AuthGuard } from './guards/AuthGuard';
 // import { VehicleOwnerGuard } from './guards/VehicleOwnerGuard';
@@ -36,37 +37,39 @@ function App() {
     return (
         <AuthProvider >
             <VehicleProvider >
-                <div className="app">
-                    <NavigationBar />
-                    <Box component="main" className="main">
-                        <Toolbar />
-                        <Routes>
-                            <Route path='/' element={<Home />} />
-                            <Route element={<AuthGuard />}>
-                                <Route path='/catalog/vehicles' element={<Catalog />} />
-                                {/* <Route element={<VehicleOwnerGuard />}> */}
-                                <Route path='/catalog/vehicles/:id' element={<VehicleDetails />} />
-                                <Route path='/catalog/vehicles/edit/:id' element={<EditVehicle />} />
-                                {/* </Route> */}
-                                <Route path='/vehicle/create' element={<CreateVehicle />} />
-                                <Route path='/user/my-profile' element={<MyProfile />} />
-                                <Route path='/auth/logout' element={<Logout />} />
-                            </Route>
-                            <Route element={<HasUserGuard />}>
-                                <Route path='/auth/login' element={<Login />} />
-                                <Route path='/auth/register' element={<Register />} />
-                            </Route>
-                            <Route path='/about' element={<About />} />
-                            <Route path='/contacts' element={<Contacts />} />
-                            <Route path="/403" element={<Forbidden />} />
-                            <Route path="/404" element={<NotFound />} />
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
-                        <Toolbar />
-                    </Box>
+                <ServiceProvider >
+                    <div className="app">
+                        <NavigationBar />
+                        <Box component="main" className="main">
+                            <Toolbar />
+                            <Routes>
+                                <Route path='/' element={<Home />} />
+                                <Route element={<AuthGuard />}>
+                                    <Route path='/catalog/vehicles' element={<Catalog />} />
+                                    {/* <Route element={<VehicleOwnerGuard />}> */}
+                                    <Route path='/catalog/vehicles/:id' element={<VehicleDetails />} />
+                                    <Route path='/catalog/vehicles/edit/:id' element={<EditVehicle />} />
+                                    {/* </Route> */}
+                                    <Route path='/vehicle/create' element={<CreateVehicle />} />
+                                    <Route path='/user/my-profile' element={<MyProfile />} />
+                                    <Route path='/auth/logout' element={<Logout />} />
+                                </Route>
+                                <Route element={<HasUserGuard />}>
+                                    <Route path='/auth/login' element={<Login />} />
+                                    <Route path='/auth/register' element={<Register />} />
+                                </Route>
+                                <Route path='/about' element={<About />} />
+                                <Route path='/contacts' element={<Contacts />} />
+                                <Route path="/403" element={<Forbidden />} />
+                                <Route path="/404" element={<NotFound />} />
+                                <Route path="*" element={<NotFound />} />
+                            </Routes>
+                            <Toolbar />
+                        </Box>
 
-                    <Footer />
-                </div>
+                        <Footer />
+                    </div>
+                </ServiceProvider >
             </VehicleProvider >
         </AuthProvider >
     );

@@ -12,7 +12,7 @@ const config = {
         host: process.env.HOST,
         port: process.env.PORT || 3000,
         dbURL: process.env.DATABASE_URL,
-        origin: ['https://autosoft.onrender.com/']
+        origin: ['https://autosoft.onrender.com']
     }
 };
 

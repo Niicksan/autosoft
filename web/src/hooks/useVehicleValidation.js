@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useVehicleContext } from "../contexts/vehicleContext";
+import { useVehicleContext } from "../contexts/VehicleContext";
 
 const fuels = [
     {
@@ -37,7 +37,7 @@ export const useVehicleValidation = () => {
     const urlRegex = new RegExp(/^https?:\/\/.+$/);
 
     const [isVehicleFormValid, setIsVehicleFormValid] = useState(false);
-    const { error, setError, onCreateVehicleSubmit, onEditVehicleSubmit } = useVehicleContext();
+    const { error, setError, getVehicleById, onCreateVehicleSubmit, onEditVehicleSubmit } = useVehicleContext();
     const [form, setVehicleForm] = useState({
         vinNumber: '',
         brand: '',
@@ -144,6 +144,7 @@ export const useVehicleValidation = () => {
         handleClickFuel,
         handleClickYearOfManufacture,
         handleClickImageUrl,
+        getVehicleById,
         onCreateVehicleSubmit,
         onEditVehicleSubmit,
         checkIsVehicleFormValid

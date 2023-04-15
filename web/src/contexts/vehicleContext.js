@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext, useParams } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from './AuthContext';
@@ -13,6 +13,7 @@ export const VehicleProvider = ({
 
     const { userId } = useAuthContext();
     const [vehicles, setVehicles] = useState([]);
+    const [vehicle, setVehicle] = useState({});
     const vehicleService = vehicleServiceFactory();
     const [error, setError] = useState({
         vinNumber: true,
@@ -57,7 +58,7 @@ export const VehicleProvider = ({
                 setError({ ...error, isVinNumberExist: newVehicle.message });
             }
 
-            setVehicles(state => [...state, newVehicle]);
+            setVehicles(state => [newVehicle, ...state]);
             navigate('/catalog/vehicles');
         } catch (err) {
             setError({ ...error, isVinNumberExist: err?.message });
@@ -73,16 +74,15 @@ export const VehicleProvider = ({
         }, 5000);
     };
 
-    const onEditVehicleSubmit = async (vehicleValues) => {
+    const onEditVehicleSubmit = async (data, vehicleId) => {
         try {
-            const { id, ...data } = vehicleValues;
-            const result = await vehicleService.editVehicle(id, data);
+            const vehicle = await vehicleService.editVehicle(data, vehicleId);
 
-            if (result.message) {
-                setError({ ...error, isVinNumberExist: result.message });
+            if (vehicle.message) {
+                setError({ ...error, isVinNumberExist: vehicle.message });
             }
 
-            setVehicles(state => state.map(x => x._id === id ? result : x))
+            setVehicles(state => state.map(v => v._id === vehicleId ? vehicle : v))
             navigate('/catalog/vehicles');
         } catch (err) {
             setError({ ...error, isVinNumberExist: err?.message });
@@ -112,6 +112,8 @@ export const VehicleProvider = ({
 
     const contextValues = {
         vehicles,
+        vehicle,
+        setVehicle,
         error,
         setError,
         getVehicleById,

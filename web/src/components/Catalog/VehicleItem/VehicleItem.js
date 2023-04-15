@@ -1,7 +1,5 @@
 import '../VehicleItem/VehicleItem.scss';
 
-import { useState } from 'react';
-
 import { Link } from 'react-router-dom';
 import { Card, Box, CardContent, Typography, CardMedia, CardActions, Button } from '@mui/material';
 
@@ -10,7 +8,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import { DeleteVehicleModal } from './DeleteVehicleModal/DeleteVehicleModal';
+import { useVehicleContext } from '../../../contexts/VehicleContext';
+import { DeleteModal } from '../DeleteModal/DeleteModal';
+import { CreateServiceModal } from '../VehicleDetails/CreateServiceModal/CreateServiceModal';
+
+import { useModal } from '../../../hooks/useModal';
 
 export const VehicleItem = ({
     _id,
@@ -24,29 +26,40 @@ export const VehicleItem = ({
     createdAtFormatted,
     isDetails
 }) => {
-    const [open, setOpen] = useState(false);
+    const {
+        openCreateModal,
+        openDeleteModal,
+        handleClickOpenCreateModal,
+        handleClickCloseCreateModal,
+        handleClickOpenDeleteModal,
+        handleClickCloseDeleteModal
+    } = useModal();
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const { onDeleteVehicleSubmit } = useVehicleContext();
 
     const vehicleTitle = `${brand} ${model} ${engine}`;
+    const message = 'Сигурни ли сте, че искате да изтриете този автомобил?';
 
     return (
         <>
-            {open && (<DeleteVehicleModal open={open} vehicleTitle={vehicleTitle} handleClickOpen={handleClickOpen} handleClose={handleClose} id={_id} />)}
-            <Card className='card' sx={{ m: 4 }}>
-                <CardMedia to={`/catalog/vehicles/${_id}`}
-                    sx={{ maxWidth: '30%', flex: 1, objectFit: 'cover' }}
+            {openCreateModal && (<CreateServiceModal open={openCreateModal} handleClose={handleClickCloseCreateModal} vehicleId={_id} />)}
+            {openDeleteModal && (<DeleteModal
+                open={openDeleteModal}
+                title={vehicleTitle}
+                message={message}
+                handleClose={handleClickCloseDeleteModal}
+                onDeleteSubmit={onDeleteVehicleSubmit}
+                vehicleId={_id}
+            />)}
+
+            <Card className='card' sx={{ m: 2, width: '80%', maxWidth: '1920px' }}>
+                <CardMedia component='img' to={`/catalog/vehicles/${_id}`}
+                    sx={{ minWidth: '30', maxWidth: '40%', flex: 1, objectFit: 'cover' }}
                     className='image'
                     image={imageUrl}
-                    title="green iguana"
+                    title={vehicleTitle}
                 />
-                <Box className='card-content-holder' >
+                <Box className='card-content-holder'>
                     <CardContent >
                         <Typography gutterBottom variant="h5" component="div">
                             {vehicleTitle}
@@ -90,19 +103,19 @@ export const VehicleItem = ({
                             </Box>
                         )}
                     </CardContent>
-                    <CardActions className='action' sx={{ justifyContent: 'flex-end' }}>
+                    <CardActions className='action' sx={{ m: 1, justifyContent: 'flex-end' }}>
                         {!isDetails && (
                             <>
                                 <Button component={Link} to={`/catalog/vehicles/${_id}`} variant="outlined" size="small" >Детайли</Button>
-                                <Button component={Link} to={`/catalog/vehicles/edit/${_id}`} size="small" variant="outlined" sx={{ marginRight: '10px' }} startIcon={<EditIcon />} >Редактиеай</Button>
-                                <Button size="small" variant="contained" startIcon={<DeleteIcon />} color="error" onClick={handleClickOpen}>Изтрий</Button>
+                                <Button component={Link} to={`/catalog/vehicles/edit/${_id}`} size="small" variant="outlined" sx={{ marginRight: '10px' }} startIcon={<EditIcon />} >Редактирай</Button>
+                                <Button size="small" variant="contained" startIcon={<DeleteIcon />} color="error" onClick={handleClickOpenDeleteModal}>Изтрий</Button>
                             </>
                         )}
 
                         {isDetails && (
                             <>
-                                <Button component={Link} to={'/catalog/vehicles/'} size="small" variant="outlined" startIcon={<ArrowBackIcon />} sx={{ marginRight: '10px' }}>Назад</Button>
-                                <Button size="small" variant="outlined" startIcon={<AddIcon />} color="success">Добави към сервизна история</Button>
+                                <Button component={Link} to={'/catalog/vehicles'} size="small" variant="outlined" startIcon={<ArrowBackIcon />} sx={{ marginRight: '10px' }}>Назад</Button>
+                                <Button size="small" variant="outlined" startIcon={<AddIcon />} color="success" onClick={handleClickOpenCreateModal}>Добави към сервизна история</Button>
                             </>
                         )}
                     </CardActions>
