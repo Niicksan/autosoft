@@ -135,6 +135,7 @@ export const CreateVehicle = () => {
                                 margin="normal"
                                 required
                                 id="fuel"
+                                select={true}
                                 label="Гориво"
                                 name="fuel"
                                 autoComplete="fuel"
@@ -158,6 +159,7 @@ export const CreateVehicle = () => {
                                 margin="normal"
                                 required
                                 id="yearOfManufacture"
+                                select={true}
                                 label="Година"
                                 name="yearOfManufacture"
                                 autoComplete="yearOfManufacture"
