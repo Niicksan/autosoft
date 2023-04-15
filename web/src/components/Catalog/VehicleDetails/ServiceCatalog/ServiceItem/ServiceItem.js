@@ -48,7 +48,7 @@ export const ServiceItem = ({
                 serviceId={_id}
             />)}
 
-            <Card className='card' sx={{ m: 2, width: '90%', maxWidth: '1920px' }}>
+            <Card className='card' sx={{ m: 2, width: '80%', maxWidth: '1920px' }}>
                 <Box className='card-content-holder card-content-holder-service' style={{ width: '99%' }}>
                     <CardContent >
                         <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'left', marginBottom: '0.5em' }} >
