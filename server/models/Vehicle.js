@@ -3,7 +3,7 @@ const { Schema, model, Types } = require("mongoose");
 
 const vehicleSchema = new Schema({
     vinNumber: { type: String, required: true, unique: true },
-    brand: { type: String, required: true },
+    make: { type: String, required: true },
     model: { type: String, required: true },
     engine: { type: String, required: true },
     fuel: { type: String, required: true },
@@ -23,7 +23,7 @@ vehicleSchema.index({ vinNumber: 1 }, {
     }
 });
 
-vehicleSchema.index({ brand: 1 }, {
+vehicleSchema.index({ make: 1 }, {
     collation: {
         locale: 'en',
         strength: 2

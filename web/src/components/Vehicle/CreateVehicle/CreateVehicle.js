@@ -18,7 +18,7 @@ export const CreateVehicle = () => {
         error,
         isVehicleFormValid,
         handleClickVinNumber,
-        handleClickBrand,
+        handleClickMake,
         handleClickModel,
         handleClickEngine,
         handleClickFuel,
@@ -30,7 +30,7 @@ export const CreateVehicle = () => {
 
     const { values, changeHandler, onSubmit } = useForm({
         vinNumber: '',
-        brand: '',
+        make: '',
         model: '',
         engine: '',
         fuel: '',
@@ -40,7 +40,7 @@ export const CreateVehicle = () => {
 
     useEffect(() => {
         checkIsVehicleFormValid()
-    }, [form.vinNumber, form.brand, form.model, form.engine, form.fuel, form.yearOfManufacture, form.imageUrl]);
+    }, [form.vinNumber, form.make, form.model, form.engine, form.fuel, form.yearOfManufacture, form.imageUrl]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -80,21 +80,21 @@ export const CreateVehicle = () => {
                         {error.isVinNumberExist && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>{error.isVinNumberExist}</Typography>}
 
                         <TextField
-                            error={!error.brand}
+                            error={!error.make}
                             margin="normal"
                             required
                             fullWidth
-                            id="brand"
+                            id="make"
                             label="Марка"
-                            name="brand"
-                            autoComplete="brand"
-                            value={values.brand}
+                            name="make"
+                            autoComplete="make"
+                            value={values.make}
                             onChange={(e) => {
                                 changeHandler(e);
-                                handleClickBrand(e);
+                                handleClickMake(e);
                             }}
                         />
-                        {!error.brand && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Марката трябва да съдържа поне 2 символа</Typography>}
+                        {!error.make && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Марката трябва да съдържа поне 2 символа</Typography>}
 
                         <TextField
                             error={!error.model}

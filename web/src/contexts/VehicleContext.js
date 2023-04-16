@@ -17,7 +17,7 @@ export const VehicleProvider = ({
     const vehicleService = vehicleServiceFactory();
     const [error, setError] = useState({
         vinNumber: true,
-        brand: true,
+        make: true,
         model: true,
         engine: true,
         fuel: true,

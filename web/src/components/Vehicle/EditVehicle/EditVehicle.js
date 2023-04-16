@@ -23,7 +23,7 @@ export const EditVehicle = () => {
         setVehicleForm,
         isVehicleFormValid,
         handleClickVinNumber,
-        handleClickBrand,
+        handleClickMake,
         handleClickModel,
         handleClickEngine,
         handleClickFuel,
@@ -38,7 +38,7 @@ export const EditVehicle = () => {
 
     const { values, setValues, changeHandler, onSubmit } = useForm({
         vinNumber: '',
-        brand: '',
+        make: '',
         model: '',
         engine: '',
         fuel: '',
@@ -52,7 +52,7 @@ export const EditVehicle = () => {
                 setValues({
                     ...values,
                     vinNumber: result.vinNumber,
-                    brand: result.brand,
+                    make: result.make,
                     model: result.model,
                     engine: result.engine,
                     fuel: result.fuel,
@@ -62,7 +62,7 @@ export const EditVehicle = () => {
                 setVehicleForm({
                     ...values,
                     vinNumber: result.vinNumber,
-                    brand: result.brand,
+                    make: result.make,
                     model: result.model,
                     engine: result.engine,
                     fuel: result.fuel,
@@ -77,7 +77,7 @@ export const EditVehicle = () => {
         checkIsVehicleFormValid()
     }, [
         form.vinNumber,
-        form.brand,
+        form.make,
         form.model,
         form.engine,
         form.fuel,
@@ -123,21 +123,21 @@ export const EditVehicle = () => {
                         {error.isVinNumberExist && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>{error.isVinNumberExist}</Typography>}
 
                         <TextField
-                            error={!error.brand}
+                            error={!error.make}
                             margin="normal"
                             required
                             fullWidth
-                            id="brand"
+                            id="make"
                             label="Марка"
-                            name="brand"
-                            autoComplete="brand"
-                            value={values.brand}
+                            name="make"
+                            autoComplete="make"
+                            value={values.make}
                             onChange={(e) => {
                                 changeHandler(e);
-                                handleClickBrand(e);
+                                handleClickMake(e);
                             }}
                         />
-                        {!error.brand && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Марката трябва да съдържа поне 2 символа</Typography>}
+                        {!error.make && <Typography component={"p"} sx={{ color: '#d32f2f', textAlign: 'left', paddingLeft: '15px' }}>Марката трябва да съдържа поне 2 символа</Typography>}
 
                         <TextField
                             error={!error.model}

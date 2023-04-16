@@ -38,7 +38,7 @@ export const VehicleDetails = () => {
             {isLoading && (<Loader />)}
             {!isLoading && (<Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography gutterBottom variant="h3" component="div" sx={{ width: '80%', color: '#550A21', marginTop: '1em' }}>
-                    {vehicle?.brand} {vehicle?.model} {vehicle?.engine}
+                    {vehicle?.make} {vehicle?.model} {vehicle?.engine}
                 </Typography>
 
                 <VehicleItem key={vehicle?._id} {...vehicle} createdAtFormatted={createdAtFormatted} isDetails={true} />

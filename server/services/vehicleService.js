@@ -30,7 +30,7 @@ async function updateVehicle(vehicle, data) {
     }
 
     vehicle.vinNumber = data.vinNumber;
-    vehicle.brand = data.brand;
+    vehicle.make = data.make;
     vehicle.model = data.model;
     vehicle.engine = data.engine;
     vehicle.fuel = data.fuel;

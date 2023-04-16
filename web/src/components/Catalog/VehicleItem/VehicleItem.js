@@ -17,7 +17,7 @@ import { useModal } from '../../../hooks/useModal';
 export const VehicleItem = ({
     _id,
     vinNumber,
-    brand,
+    make,
     model,
     engine,
     fuel,
@@ -37,7 +37,7 @@ export const VehicleItem = ({
 
     const { onDeleteVehicleSubmit } = useVehicleContext();
 
-    const vehicleTitle = `${brand} ${model} ${engine}`;
+    const vehicleTitle = `${make} ${model} ${engine}`;
     const message = 'Сигурни ли сте, че искате да изтриете този автомобил?';
 
     return (
@@ -72,7 +72,7 @@ export const VehicleItem = ({
                                 </Typography>
 
                                 <Typography color="text.secondary">
-                                    <Typography component='span' className='content-item'>Марка: </Typography>{brand}
+                                    <Typography component='span' className='content-item'>Марка: </Typography>{make}
                                 </Typography>
 
                                 <Typography color="text.secondary">

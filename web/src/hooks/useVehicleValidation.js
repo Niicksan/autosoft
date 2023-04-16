@@ -40,7 +40,7 @@ export const useVehicleValidation = () => {
     const { error, setError, getVehicleById, onCreateVehicleSubmit, onEditVehicleSubmit } = useVehicleContext();
     const [form, setVehicleForm] = useState({
         vinNumber: '',
-        brand: '',
+        make: '',
         model: '',
         engine: '',
         fuel: '',
@@ -58,14 +58,14 @@ export const useVehicleValidation = () => {
         setVehicleForm({ ...form, vinNumber: e.target.value });
     };
 
-    const handleClickBrand = (e) => {
+    const handleClickMake = (e) => {
         if ((e.target.value).length > 1) {
-            setError({ ...error, brand: true });
+            setError({ ...error, make: true });
         } else {
-            setError({ ...error, brand: false });
+            setError({ ...error, make: false });
         }
 
-        setVehicleForm({ ...form, brand: e.target.value });
+        setVehicleForm({ ...form, make: e.target.value });
     };
 
     const handleClickModel = (e) => {
@@ -121,7 +121,7 @@ export const useVehicleValidation = () => {
     const checkIsVehicleFormValid = () => {
         (
             (error.vinNumber && form.vinNumber !== '') &&
-            (error.brand && form.brand !== '') &&
+            (error.make && form.make !== '') &&
             (error.model && form.model !== '') &&
             (error.engine && form.engine !== '') &&
             (error.fuel && form.fuel !== '') &&
@@ -138,7 +138,7 @@ export const useVehicleValidation = () => {
         setVehicleForm,
         isVehicleFormValid,
         handleClickVinNumber,
-        handleClickBrand,
+        handleClickMake,
         handleClickModel,
         handleClickEngine,
         handleClickFuel,
