@@ -25,7 +25,9 @@ module.exports = (app) => {
     // Setup the static files
     app.use('/static', express.static('static'));
 
-    app.use(cors());
+    app.use(cors({
+        origin: config.origin
+    }));
     app.use(cookieParser(cookieSecret));
     app.use(session());
     // app.use(trimBody('password'));
