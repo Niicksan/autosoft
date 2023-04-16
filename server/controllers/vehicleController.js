@@ -2,7 +2,7 @@ const vehicleController = require('express').Router();
 
 const { check, validationResult } = require('express-validator');
 const { createVehicle, deleteVehicleById, updateVehicle, getAllVehiclesCreatedByUser } = require('../services/vehicleService');
-const { createService, updateService, deleteServiceById } = require('../services/repairService');
+const { createService, updateService, deleteServiceById, deleteAllServiceByVehicleId } = require('../services/repairService');
 const { getAllServiceByVehicleId } = require('../services/repairService');
 const { parseError } = require('../utils/errorParser');
 const { hasUser, isOwner } = require('../middlewares/guards');
@@ -111,6 +111,8 @@ vehicleController.delete('/:vehicleId',
     async (req, res) => {
         try {
             await deleteVehicleById(req.params.vehicleId);
+            await deleteAllServiceByVehicleId(req.params.vehicleId);
+
             res.status(200).json({
                 messageEn: "Item deleted successfully",
                 messageBg: "Успешно изтриване"

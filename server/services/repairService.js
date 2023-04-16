@@ -3,6 +3,7 @@ const Service = require("../models/Service");
 async function getAllServiceByVehicleId(id) {
     return Service.find({ vehicleId: id }, { updatedAt: 0, __v: 0 }).sort({ createdAt: -1 });
 }
+
 async function getServiceById(id) {
     return Service.findById(id);
 }
@@ -23,10 +24,15 @@ async function deleteServiceById(id) {
     return Service.findByIdAndDelete(id);
 }
 
+async function deleteAllServiceByVehicleId(id) {
+    return Service.deleteMany({ vehicleId: id });
+}
+
 module.exports = {
     getAllServiceByVehicleId,
     getServiceById,
     createService,
     updateService,
-    deleteServiceById
+    deleteServiceById,
+    deleteAllServiceByVehicleId
 }
