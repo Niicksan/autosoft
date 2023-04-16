@@ -1,11 +1,14 @@
 import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 import { Container, Avatar, Button, CssBaseline, TextField, Box, Typography } from '@mui/material';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { useForm } from "../../hooks/useForm";
+import { contactsServiceFactory } from '../../services/contactsService';
+
 import { useContactsValidation } from "../../hooks/useContactsValidation";
+import { useForm } from "../../hooks/useForm";
 
 const theme = createTheme();
 
@@ -13,7 +16,8 @@ export const Contacts = () => {
     const {
         form,
         error,
-        isSentSuccessfully,
+        sentSuccessfullyMessage,
+        setSentSuccessfullyMessage,
         isFormValid,
         handleClickName,
         handleClickEmail,
@@ -22,12 +26,27 @@ export const Contacts = () => {
         checkIsFormValid
     } = useContactsValidation();
 
+    const navigate = useNavigate();
+    const contactsService = contactsServiceFactory();
+    const onCreateServiceSubmit = async (data) => {
+        try {
+            const response = await contactsService.sentMessage(data);
+
+            if (response.messageBg) {
+                setSentSuccessfullyMessage(response.messageBg);
+                navigate('/');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const { values, changeHandler, onSubmit } = useForm({
         name: '',
         email: '',
         subject: '',
         message: ''
-    }, checkIsFormValid);
+    }, onCreateServiceSubmit);
 
     useEffect(() => {
         checkIsFormValid()

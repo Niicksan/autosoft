@@ -4,7 +4,7 @@ export const useContactsValidation = () => {
     const emailRegex = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/);
 
     const [isFormValid, setIsFormValid] = useState(false);
-    const [isSentSuccessfully, setIsSentSuccessfully] = useState(false);
+    const [sentSuccessfullyMessage, setSentSuccessfullyMessage] = useState('');
     const [form, setForm] = useState({
         name: '',
         email: '',
@@ -71,8 +71,9 @@ export const useContactsValidation = () => {
     return {
         form,
         error,
-        isSentSuccessfully,
         isFormValid,
+        sentSuccessfullyMessage,
+        setSentSuccessfullyMessage,
         handleClickName,
         handleClickEmail,
         handleClickSubject,
