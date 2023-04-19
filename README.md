@@ -9,7 +9,7 @@ Next in `/web` folder run
 
 ## Add environmental variables
 Create file `.env.local` in the main root folder `web`
-Add this constants
+Add these constants
 `REACT_APP_API_URL=http://localhost:3030/api`
 `REACT_APP_IMAGE_API=http://localhost:3030/static/images`
 
