@@ -15,7 +15,7 @@ export const Catalog = () => {
         <section style={{ minHeight: '60vh' }} id="catalog-page">
             <h1 style={{ color: '#550A21' }}>Каталог с aвтомобили</h1>
 
-            {vehicles.length > 0 && (<Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+            {vehicles.length > 0 && (<Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
                 {vehicles.length !== 0 && (vehicles.map(x =>
                     <VehicleItem key={x._id} {...x} />
                 ))}
