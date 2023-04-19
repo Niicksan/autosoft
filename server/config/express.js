@@ -1,6 +1,7 @@
 const express = require('express');
 const { parseError } = require('../utils/errorParser');
-const cors = require('../middlewares/cors');
+const cors = require('cors');
+const corsMiddleware = require('../middlewares/corsMiddleware');
 const cookieParser = require('cookie-parser');
 const session = require('../middlewares/session');
 const trimBody = require('../middlewares/trimBody');
@@ -28,6 +29,7 @@ module.exports = (app) => {
     app.use(cors({
         origin: config.origin
     }));
+    app.use(corsMiddleware());
     app.use(cookieParser(cookieSecret));
     app.use(session());
     // app.use(trimBody('password'));
