@@ -9,7 +9,8 @@ export const vehicleServiceFactory = (token) => {
 
     return {
         getAllVehicles: () => request.get(`${baseUrl}`),
-        getVehicleById: (vehicleId) => request.get(`${baseUrl}/${vehicleId}/services`),
+        getVehicleById: (vehicleId) => request.get(`${baseUrl}/${vehicleId}`),
+        getVehicleByIdWithServices: (vehicleId) => request.get(`${baseUrl}/${vehicleId}/services`),
         createVehicle: (vehicleData) => request.post(`${baseUrl}`, vehicleData),
         editVehicle: (vehicleData, vehicleId) => request.patch(`${baseUrl}/${vehicleId}`, vehicleData),
         deleteVehicle: (vehicleId) => request.delete(`${baseUrl}/${vehicleId}`),

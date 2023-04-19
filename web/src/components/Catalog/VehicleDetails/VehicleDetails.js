@@ -13,13 +13,13 @@ import { useSnackbar } from "../../../hooks/useSnackbar";
 
 export const VehicleDetails = () => {
     const { id } = useParams();
-    const { vehicle, setVehicle, getVehicleById } = useVehicleContext();
+    const { vehicle, setVehicle, getVehicleByIdWithServices } = useVehicleContext();
     const [isLoading, setIsLoading] = useState(false);
     const { openSnackbar, isSnackbarOpen } = useSnackbar();
 
     useEffect(() => {
         setIsLoading(true);
-        getVehicleById(id)
+        getVehicleByIdWithServices(id)
             .then((vehicleData) => {
                 setVehicle(vehicleData);
                 setIsLoading(false);

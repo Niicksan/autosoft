@@ -50,6 +50,23 @@ export const VehicleProvider = ({
         }
     };
 
+    const getVehicleByIdWithServices = async (vehicleId) => {
+        try {
+            const vehicle = await vehicleService.getVehicleByIdWithServices(vehicleId);
+
+            return vehicle;
+
+        } catch (err) {
+            if (err.messageEn === "Item doesn't exist") {
+                console.log(err);
+                navigate('/404');
+            } else if (err.messageEn === "Access denied! You don't have rights to access this page!") {
+                console.log(err);
+                navigate('/403');
+            }
+        }
+    };
+
     const onCreateVehicleSubmit = async (data) => {
         try {
             const newVehicle = await vehicleService.createVehicle(data);
@@ -117,6 +134,7 @@ export const VehicleProvider = ({
         error,
         setError,
         getVehicleById,
+        getVehicleByIdWithServices,
         onCreateVehicleSubmit,
         onEditVehicleSubmit,
         onDeleteVehicleSubmit,
