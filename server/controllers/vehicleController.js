@@ -25,6 +25,16 @@ vehicleController.get('/',
     }
 );
 
+vehicleController.get('/:vehicleId',
+    preloader(),
+    isOwner(),
+    async (req, res) => {
+        const vehicle = res.locals.vehicle;
+
+        res.json(vehicle);
+    }
+);
+
 vehicleController.get('/:vehicleId/services',
     preloader(),
     isOwner(),
