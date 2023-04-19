@@ -54,7 +54,7 @@ export const VehicleItem = ({
 
             <Card className='card' sx={{ m: 2, width: '80%', maxWidth: '1920px' }}>
                 <CardMedia component='img' to={`/catalog/vehicles/${_id}`}
-                    sx={{ minWidth: '30', maxWidth: '40%', flex: 1, objectFit: 'cover' }}
+                    sx={{ minWidth: '30%', maxWidth: '40%', flex: 1, objectFit: 'cover' }}
                     className='image'
                     image={imageUrl}
                     title={vehicleTitle}
