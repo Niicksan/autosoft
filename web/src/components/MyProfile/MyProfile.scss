@@ -20,7 +20,7 @@ $red: #f44336;
 
     .my-profile {
         display: flex;
-        direction: row;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
 
@@ -247,9 +247,23 @@ $red: #f44336;
 @media screen and (max-width: 768px) {
     .profile {
         .my-profile {
+            flex-direction: column;
+
+            .image-holder {
+                width: 50%;
+                margin-right: 0;
+            }
+
             .user-info {
+                width: 60%;
+
                 .key-value {
-                    flex-direction: column;
+
+                    .left,
+                    .right {
+                        width: 50%;
+                        text-align: left;
+                    }
                 }
             }
         }
