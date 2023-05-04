@@ -52,7 +52,7 @@ export const Login = () => {
                     <Typography component="h1" variant="h5">
                         Вход в AutoSoft
                     </Typography>
-                    <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={onSubmit} sx={{ mt: 1, minWidth: '100%' }}>
                         <TextField
                             error={!error.email}
                             margin="normal"
