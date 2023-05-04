@@ -4,8 +4,8 @@ const config = {
     development: {
         host: 'localhost',
         port: process.env.PORT || 3030,
-        dbURL: 'mongodb://localhost:27017/autosoft',
-        //dbURL: 'mongodb+srv://niksan:aiROMoGZxAy7vzJY@petfindme.ocortq9.mongodb.net/?retryWrites=true&w=majority',
+        // dbURL: 'mongodb://localhost:27017/autosoft',
+        dbURL: 'mongodb://127.0.0.1:27017/autosoft',
         origin: ['http://localhost:3000']
     },
     production: {
