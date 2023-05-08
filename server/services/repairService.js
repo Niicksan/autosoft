@@ -16,6 +16,7 @@ async function updateService(service, data) {
     service.title = data.title;
     service.kilometers = data.kilometers;
     service.description = data.description;
+    service.updatedAt = new Date().toISOString();
 
     return service.save();
 }
