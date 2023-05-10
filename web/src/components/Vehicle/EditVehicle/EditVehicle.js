@@ -74,7 +74,7 @@ export const EditVehicle = () => {
 
 
     useEffect(() => {
-        checkIsVehicleFormValid()
+        checkIsVehicleFormValid();
     }, [
         form.vinNumber,
         form.make,
@@ -103,7 +103,7 @@ export const EditVehicle = () => {
                     <Typography component="h1" variant="h5" >
                         Редактирай атомобил
                     </Typography>
-                    <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={onSubmit} sx={{ mt: 1, minWidth: '100%' }}>
                         <TextField
                             error={!error.vinNumber}
                             margin="normal"

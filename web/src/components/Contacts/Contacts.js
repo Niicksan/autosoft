@@ -49,7 +49,7 @@ export const Contacts = () => {
     }, onCreateServiceSubmit);
 
     useEffect(() => {
-        checkIsFormValid()
+        checkIsFormValid();
     }, [form.name, form.email, form.subject, form.message]);
 
     return (
@@ -70,7 +70,7 @@ export const Contacts = () => {
                     <Typography component="h1" variant="h5" >
                         Свържете се с нас
                     </Typography>
-                    <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={onSubmit} sx={{ mt: 1, minWidth: '100%' }}>
                         <TextField
                             error={!error.name}
                             margin="normal"

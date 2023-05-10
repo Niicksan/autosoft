@@ -39,7 +39,7 @@ export const CreateVehicle = () => {
     }, onCreateVehicleSubmit);
 
     useEffect(() => {
-        checkIsVehicleFormValid()
+        checkIsVehicleFormValid();
     }, [form.vinNumber, form.make, form.model, form.engine, form.fuel, form.yearOfManufacture, form.imageUrl]);
 
     return (
@@ -60,7 +60,7 @@ export const CreateVehicle = () => {
                     <Typography component="h1" variant="h5" >
                         Добавете атомобил
                     </Typography>
-                    <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={onSubmit} sx={{ mt: 1, minWidth: '100%' }}>
                         <TextField
                             error={!error.vinNumber}
                             margin="normal"

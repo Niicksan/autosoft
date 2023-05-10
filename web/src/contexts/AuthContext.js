@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
@@ -9,9 +9,11 @@ export const AuthContext = createContext();
 export const AuthProvider = ({
     children
 }) => {
+    const navigate = useNavigate();
+    const pathname = window.location.pathname;
+
     const [auth, setAuth] = useLocalStorage('auth', {});
     const [profileData, setProfileData] = useState({});
-
     const [error, setError] = useState({
         email: true,
         companyName: true,
@@ -19,9 +21,18 @@ export const AuthProvider = ({
         confirmPassword: true,
         isUserExist: '',
         invalidLoginData: ''
-    })
+    });
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        setError({
+            email: true,
+            companyName: true,
+            password: true,
+            confirmPassword: true,
+            isUserExist: '',
+            invalidLoginData: ''
+        });
+    }, [pathname]);
 
     const authService = authServiceFactory(auth.authToken);
 
@@ -44,7 +55,7 @@ export const AuthProvider = ({
         setTimeout(() => {
             setError({ ...error, invalidLoginData: '' });
         }, 5000);
-    }
+    };
 
     const onRegisterSubmit = async (registerFormData) => {
         try {
@@ -64,7 +75,7 @@ export const AuthProvider = ({
         setTimeout(() => {
             setError({ ...error, isUserExist: '' });
         }, 5000);
-    }
+    };
 
     const onLogout = async () => {
         await authService.logout();

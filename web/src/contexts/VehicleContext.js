@@ -10,6 +10,7 @@ export const VehicleProvider = ({
     children,
 }) => {
     const navigate = useNavigate();
+    const pathname = window.location.pathname;
 
     const { userId } = useAuthContext();
     const [vehicles, setVehicles] = useState([]);
@@ -30,8 +31,21 @@ export const VehicleProvider = ({
         vehicleService.getAllVehicles(userId)
             .then(result => {
                 setVehicles(result);
-            })
+            });
     }, [userId]);
+
+    useEffect(() => {
+        setError({
+            vinNumber: true,
+            make: true,
+            model: true,
+            engine: true,
+            fuel: true,
+            yearOfManufacture: true,
+            imageUrl: true,
+            isVinNumberExist: '',
+        });
+    }, [pathname]);
 
     const getVehicleById = async (vehicleId) => {
         try {

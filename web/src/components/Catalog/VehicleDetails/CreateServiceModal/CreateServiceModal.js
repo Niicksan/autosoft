@@ -13,6 +13,7 @@ export const CreateServiceModal = ({
     const {
         serviceForm,
         error,
+        setError,
         isServiceFormValid,
         handleClickTitle,
         handleClickKilometers,
@@ -28,8 +29,16 @@ export const CreateServiceModal = ({
     }, onCreateServiceSubmit, vehicleId);
 
     useEffect(() => {
-        checkIsServiceFormValid()
+        checkIsServiceFormValid();
     }, [serviceForm.title, serviceForm.kilometers, serviceForm.description]);
+
+    useEffect(() => {
+        setError({
+            title: true,
+            kilometers: true,
+            description: true
+        })
+    }, [open]);
 
     return (
         <div>
@@ -38,7 +47,7 @@ export const CreateServiceModal = ({
                 <Box component="form" onSubmit={(e) => {
                     onSubmit(e);
                     handleClose();
-                }} sx={{ mt: 1 }}>
+                }} sx={{ mt: 1, minWidth: '600px' }}>
                     <DialogContent>
                         <DialogContentText>
                             Добавете обслужване към сервизната история на този автомобил.
