@@ -11,9 +11,8 @@ export const VehicleProvider = ({
 }) => {
     const navigate = useNavigate();
     const pathname = window.location.pathname;
-    const auth = localStorage.getItem('auth');
 
-    const { userId } = useAuthContext();
+    const { userId, isAuthenticated } = useAuthContext();
     const [vehicles, setVehicles] = useState([]);
     const [vehicle, setVehicle] = useState({});
     const vehicleService = vehicleServiceFactory();
@@ -29,13 +28,13 @@ export const VehicleProvider = ({
     });
 
     useEffect(() => {
-        if (auth !== '{}') {
+        if (isAuthenticated) {
             vehicleService.getAllVehicles(userId)
                 .then(result => {
                     setVehicles(result);
                 });
         }
-    }, [auth, userId]);
+    }, [isAuthenticated, userId]);
 
     useEffect(() => {
         setError({
