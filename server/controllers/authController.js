@@ -51,12 +51,10 @@ authController.post('/register',
 authController.post('/login', async (req, res) => {
     try {
         const token = await login(req.body.email, req.body.password);
-        console.log('Token created on login: ', token);
+
         if (process.env.NODE_ENV === 'production') {
-            console.log('production');
             res.cookie(authCookieName, token.authToken, { httpOnly: true, sameSite: 'none', secure: true });
         } else {
-            console.log('dev');
             res.cookie(authCookieName, token.authToken, { httpOnly: true });
         }
 
@@ -64,26 +62,23 @@ authController.post('/login', async (req, res) => {
     } catch (error) {
         const message = parseError(error);
         console.error(message);
-        res.status(401).json({ message });
+        res.status(400).json({ message });
     }
 });
 
 authController.get('/logout', async (req, res) => {
     const token = req.token;
-    console.log('Logout token: ', token);
+
     try {
         if (token) {
             await logout(token);
         }
 
-        console.log('Logged out!');
         res.clearCookie(authCookieName);
         res.status(200).json({
             messageEn: 'Logged out!',
             messageBg: 'Успешно отписване'
         });
-
-        console.log('Cookie cleared!');
     } catch (error) {
         const message = parseError(error);
         console.error(message);
