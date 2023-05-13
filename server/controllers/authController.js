@@ -62,7 +62,7 @@ authController.post('/login', async (req, res) => {
     } catch (error) {
         const message = parseError(error);
         console.error(message);
-        res.status(400).json({ message });
+        res.status(401).json({ message });
     }
 });
 
