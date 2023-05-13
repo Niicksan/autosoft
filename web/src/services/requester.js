@@ -29,6 +29,7 @@ const request = async (method, url, data) => {
 
     if (response.status === 401) {
         localStorage.setItem('auth', JSON.stringify({}));
+        window.location.pathname = '/auth/login';
     }
 
     if (response.status === 204) {
