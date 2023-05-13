@@ -56,7 +56,7 @@ export const NavigationBar = (props) => {
                             aria-label="open drawer"
                             edge="start"
                             onClick={handleDrawerToggle}
-                            sx={{ mr: 2, display: { sm: 'none' }, marginRight: 0 }}
+                            sx={{ mr: 2, display: { sm: 'none' }, marginRight: 0, paddingRight: 0 }}
                         >
                             <MenuIcon />
                         </IconButton>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Dialog, DialogTitle, Box, DialogContent, DialogContentText, TextField, Typography, DialogActions, Button } from '@mui/material';
 
@@ -30,6 +30,21 @@ export const EditServiceModal = ({
         kilometers: '',
         description: ''
     }, onEditServiceSubmit, vehicleId, serviceId);
+
+    const mediaMatch = window.matchMedia('(min-width: 600px)');
+    const [matches, setMatches] = useState(mediaMatch.matches);
+
+    const styles = {
+        form: isWeb => ({
+            minWidth: isWeb ? '600px' : '',
+        })
+    };
+
+    useEffect(() => {
+        const handler = e => setMatches(e.matches);
+        mediaMatch.addListener(handler);
+        return () => mediaMatch.removeListener(handler);
+    });
 
     useEffect(() => {
         getServiceById(vehicleId, serviceId)
@@ -68,7 +83,7 @@ export const EditServiceModal = ({
                 <Box component="form" onSubmit={(e) => {
                     onSubmit(e);
                     handleClose();
-                }} sx={{ mt: 1, minWidth: '600px' }}>
+                }} sx={{ mt: 1 }} style={styles.form(matches)}>
                     <DialogContent>
                         <DialogContentText>
                             Редактиеай обслужване в сервизната история на този автомобил.
