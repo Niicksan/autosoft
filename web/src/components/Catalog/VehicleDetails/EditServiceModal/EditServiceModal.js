@@ -86,7 +86,7 @@ export const EditServiceModal = ({
                 }} sx={{ mt: 1 }} style={styles.form(matches)}>
                     <DialogContent>
                         <DialogContentText>
-                            Редактиеай обслужване в сервизната история на този автомобил.
+                            Редактирай обслужване в сервизната история на този автомобил.
                         </DialogContentText>
                         <TextField
                             error={!error.title}

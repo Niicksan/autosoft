@@ -75,7 +75,7 @@ export const ServiceItem = ({
 
                     </CardContent>
                     <CardActions className='action' sx={{ m: 1, justifyContent: 'flex-end' }}>
-                        <Button size="small" variant="outlined" sx={{ marginRight: '10px' }} onClick={handleClickOpenEditModal} startIcon={<EditIcon />} >Редактиеай</Button>
+                        <Button size="small" variant="outlined" sx={{ marginRight: '10px' }} onClick={handleClickOpenEditModal} startIcon={<EditIcon />} >Редактирай</Button>
                         <Button size="small" variant="contained" startIcon={<DeleteIcon />} color="error" onClick={handleClickOpenDeleteModal}>Изтрий</Button>
                     </CardActions>
                 </Box>
