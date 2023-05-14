@@ -79,7 +79,7 @@ export const EditServiceModal = ({
     return (
         <div>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Редактиеай обслужване</DialogTitle>
+                <DialogTitle>Редактирай обслужване</DialogTitle>
                 <Box component="form" onSubmit={(e) => {
                     onSubmit(e);
                     handleClose();
