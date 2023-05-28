@@ -79,7 +79,6 @@ $navbar-blue: #550A21;
     }
 }
 
-
 @media screen and (max-width: 768px) {
     .container {
         display: flex;
@@ -94,5 +93,20 @@ $navbar-blue: #550A21;
         ul {
             border-top: none !important;
         }
+
+        .about,
+        .social,
+        .contact {
+            padding-bottom: 0;
+        }
+
+        .social,
+        .contact {
+            padding-top: 1em;
+        }
+    }
+
+    .bottom {
+        margin-top: 2em !important;
     }
 }
